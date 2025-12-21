@@ -1,12 +1,24 @@
 import express from "express";
-import { login, logout, signup } from "../controllers/auth.controller.js";
+import {
+  login,
+  logout,
+  onboard,
+  signup,
+} from "../controllers/auth.controller.js";
+import { protectedRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/api/auth/signup", signup);
+router.post("/signup", signup);
 
-router.post("/api/auth/logout", logout);
+router.post("/logout", logout);
 
-router.post("/api/auth/login", login);
+router.post("/login", login);
+
+router.post("/onboarding", protectedRoute, onboard);
+
+router.get("/me", protectedRoute, (req, res) => {
+  res.status(200).json({ success: true, user: req.user });
+});
 
 export default router;
