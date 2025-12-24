@@ -113,14 +113,14 @@ export async function logout(req, res) {
 export async function onboard(req, res) {
   try {
     const userId = req.user._id;
-    const { fullName, bio, nativeLanguage, learningLangauge, location } =
+    const { fullName, bio, nativeLanguage, learningLanguage, location } =
       req.body;
 
     if (
       !fullName ||
       !bio ||
       !nativeLanguage ||
-      !learningLangauge ||
+      !learningLanguage ||
       !location
     ) {
       return res.status(400).json({
@@ -129,7 +129,7 @@ export async function onboard(req, res) {
           !fullName && "fullName",
           !bio && "bio",
           !nativeLanguage && "nativeLanguage",
-          !learningLangauge && "learningLangauge",
+          !learningLanguage && "learningLanguage",
           !location && "location",
         ].filter(Boolean),
       });

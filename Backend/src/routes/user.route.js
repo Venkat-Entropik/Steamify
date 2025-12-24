@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.use(protectedRoute);
 
-router.get("/", getRecomendedUsers);
+router.get("/get-recommended-users", getRecomendedUsers);
 router.get("/friends", getMyFriends);
 
 router.post("/friends-request/:id", sendFriendRequest);
