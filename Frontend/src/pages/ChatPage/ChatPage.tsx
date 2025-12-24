@@ -1,9 +1,8 @@
-import React from 'react'
+import { type FC } from "react";
+import type { ChatPageProps } from "../../types/streamify.types";
 
-const ChatPage = () => {
-  return (
-    <div>ChatPage</div>
-  )
-}
+const ChatPage: FC<ChatPageProps> = (props) => {
+  return <div>ChatPage</div>;
+};
 
-export default ChatPage
+export default ChatPage;
