@@ -27,4 +27,21 @@ export type onBoardingType = {
   nativeLanguage: string;
   learningLanguage: string;
   location: string;
+  profilePic?: string;
+};
+
+export type UserType = {
+  _id: string;
+  fullName: string;
+  email: string;
+  bio: string;
+  profilePic: string;
+  nativeLanguage: string;
+  learningLanguage: string;
+  location: string;
+  isOnBoarded: boolean;
+  friends: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 };
