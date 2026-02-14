@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 import signUpIllustration from "../../assets/signup-illustration.svg";
@@ -38,14 +37,13 @@ const SignUpPage = () => {
   // const { isPending, error, signupMutation } = useSignUp();
 
   const handleSignup = (data: signUpPayloadType) => {
-    console.log("data", data);
     signupMutation(data);
   };
 
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="forest"
+      data-theme="valentine"
       data-testid="signup"
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">

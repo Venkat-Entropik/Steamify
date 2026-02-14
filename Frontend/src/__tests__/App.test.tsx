@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import App from '../App';
-import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router';
 
@@ -9,16 +8,19 @@ import { MemoryRouter } from 'react-router';
 // If App has providers, we might need a custom render.
 
 // Create a client
-const queryClient = new QueryClient({
+export const createTestQueryClient = () => {
+  return new QueryClient({
     defaultOptions: {
-        queries: {
-            retry: false,
-        },
+      queries: {
+        retry: false,
+      },
     },
-});
+  });
+};
 
 describe('App', () => {
     test('renders without crashing', () => {
+        const queryClient = createTestQueryClient();
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>

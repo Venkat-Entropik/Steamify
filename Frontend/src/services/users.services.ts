@@ -11,12 +11,12 @@ class userServices {
   }
 
   sendFriendRequest(userId: string) {
-    return apiInstance.post(`${Constants.SEND_FRIEND_REQUEST}/${userId}`);
+    return apiInstance.post(`${Constants.SEND_FRIEND_REQUEST}${userId}`);
   }
 
   acceptFriendRequest(userId: string) {
-    return apiInstance.post(
-      `${Constants.SEND_FRIEND_REQUEST}/${userId}/accept`
+    return apiInstance.put(
+      `${Constants.ACCEPT_FRIEND_REQUEST}${userId}/accept`
     );
   }
 

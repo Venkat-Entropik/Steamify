@@ -12,10 +12,13 @@ import useAuthUser from "../../hooks/useAuthUser";
 import type { onBoardingType, UserType } from "../../types/streamify.types";
 import { LANGUAGES } from "../../utils/Static";
 import { useForm } from "react-hook-form";
+import authServices from "../../services/auth.services";
+import { useNavigate } from "react-router";
 
 const OnboardingPage = () => {
   const { authData } = useAuthUser();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const authUser: UserType = authData?.data?.user;
 
@@ -37,24 +40,24 @@ const OnboardingPage = () => {
     },
     mode: "onBlur",
   });
-  console.log("get", getValues("profilePic"));
-  // const { mutate: onboardingMutation, isPending } = useMutation({
-  //   mutationFn: completeOnboarding,
-  //   onSuccess: () => {
-  //     toast.success("Profile onboarded successfully");
-  //     queryClient.invalidateQueries({ queryKey: ["authUser"] });
-  //   },
+  const { mutate: onboardingMutation, isPending } = useMutation({
+    mutationFn: authServices.onBoarding,
+    onSuccess: () => {
+      toast.success("Profile onboarded successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/");
+    },
 
-  //   onError: (error) => {
-  //     toast.error(error.response.data.message);
-  //   },
-  // });
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   const submit = (data: onBoardingType) => {
-    console.log("data", data);
+    onboardingMutation(data);
   };
 
-  const handleRandomAvatar = () => {
+  const handleRandomAvatar = (): void => {
     const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
@@ -63,7 +66,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4"  data-theme="primary">
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
@@ -217,10 +220,10 @@ const OnboardingPage = () => {
 
             <button
               className="btn btn-primary w-full"
-              disabled={!isValid || isSubmitting}
+              disabled={!isValid || isSubmitting || isPending}
               type="submit"
             >
-              {!isSubmitting ? (
+              {!isSubmitting || !isPending ? (
                 <>
                   <ShipWheelIcon className="size-5 mr-2" />
                   Complete Onboarding

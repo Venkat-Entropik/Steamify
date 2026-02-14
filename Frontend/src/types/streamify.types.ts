@@ -16,10 +16,7 @@ export type signUpPayloadType = {
   fullName: string;
 };
 
-export type loginPayloadType = {
-  email: string;
-  password: string;
-};
+export type loginPayloadType = Omit<signUpPayloadType,"fullName">
 
 export type onBoardingType = {
   fullName: string;

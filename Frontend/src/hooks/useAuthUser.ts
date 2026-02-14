@@ -5,8 +5,13 @@ const useAuthUser = () => {
   const authUser = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
-      const res = await authServices.getCurrentUser();
-      return res.data;
+      try {
+        const res = await authServices.getCurrentUser();
+        return res.data;
+      } catch (error) {
+        console.error("error", error);
+        return null;
+      }
     },
     retry: false,
   });

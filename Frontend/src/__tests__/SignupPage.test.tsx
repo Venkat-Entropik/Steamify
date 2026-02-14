@@ -4,17 +4,8 @@ import { screen, render, fireEvent, waitFor } from "@testing-library/react";
 import { describe, expect, test } from "@jest/globals";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-export const createTestQueryClient = () => {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-};
+import { QueryClientProvider } from "@tanstack/react-query";
+import { createTestQueryClient } from "./App.test";
 
 describe("test", () => {
   test("should component mount", () => {

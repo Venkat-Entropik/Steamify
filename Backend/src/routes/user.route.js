@@ -19,7 +19,7 @@ router.get("/friends", getMyFriends);
 router.post("/friends-request/:id", sendFriendRequest);
 router.put("/friends-request/:id/accept", acceptFriendRequest);
 
-router.get("/friend-request", getFriendRequests);
+router.get("/friends-request", getFriendRequests);
 router.get("/outgoing-friend-requests", getOutgoingFriendRequest);
 
 export default router;

@@ -4,18 +4,28 @@ import { Navigate, Route, Routes } from "react-router";
 import type { route, UserType } from "./types/streamify.types";
 import ErrorBoundary from "./ErrorBoundary";
 import { Toaster } from "react-hot-toast";
-import { nonAuthenticatedRoutes } from "./utils/Static";
+import { nonAuthenticatedRoutes, sidebarNotRequiredPages } from "./utils/Static";
 import useAuthUser from "./hooks/useAuthUser";
+import Layout from "./Components/Layout/Layout";
+import { useThemeStore } from "./store/useThemeStore";
+import PageLoader from "./Components/Loader/PageLoader";
 
 interface AppProps {}
 
 const App: FC<AppProps> = () => {
   const { isLoading, authData } = useAuthUser();
+  const {theme} = useThemeStore()
+
+  console.log("--- loading", isLoading);
+
+  if (isLoading) {
+   return <PageLoader />
+  }
 
   const authUser: UserType | undefined = authData?.data?.user;
 
   const isAuthenticated: boolean = Boolean(authUser);
-  const isOnboarder: boolean | undefined = authUser?.isOnBoarded;
+  const isOnboarded: boolean | undefined = authUser?.isOnBoarded;
 
   const getElement = (props: route) => {
     const Element = props.routeProps.element;
@@ -28,17 +38,19 @@ const App: FC<AppProps> = () => {
       return <Navigate to={"/login"} />;
     }
 
-    if (!isOnboarder) {
+    if (!isOnboarded) {
       return <Navigate to={"/onboarding"} />;
     }
 
     return (
-      <Element />
+      <Layout showSidebar={!sidebarNotRequiredPages?.includes(props?.name)}>
+        <Element />
+      </Layout>
     );
   };
 
   return (
-    <div className="h-screen" draggable={false}>
+    <div className="h-screen" draggable={false} data-theme={theme}>
       <ErrorBoundary>
         <Suspense fallback={<div>loading...</div>}>
           <Routes>
