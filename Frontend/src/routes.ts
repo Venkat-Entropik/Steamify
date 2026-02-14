@@ -44,14 +44,14 @@ export const routes = [
   },
   {
     routeProps: {
-      path: "/chat",
+      path: "/chat/:id",
       element: ChatPage,
     },
     name: "Chat",
   },
   {
     routeProps: {
-      path: "/call",
+      path: "/call/:id",
       element: CallPage,
     },
     name: "Call",

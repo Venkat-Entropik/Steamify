@@ -16,10 +16,7 @@ export type signUpPayloadType = {
   fullName: string;
 };
 
-export type loginPayloadType = {
-  email: string;
-  password: string;
-};
+export type loginPayloadType = Omit<signUpPayloadType,"fullName">
 
 export type onBoardingType = {
   fullName: string;
@@ -27,4 +24,21 @@ export type onBoardingType = {
   nativeLanguage: string;
   learningLanguage: string;
   location: string;
+  profilePic?: string;
+};
+
+export type UserType = {
+  _id: string;
+  fullName: string;
+  email: string;
+  bio: string;
+  profilePic: string;
+  nativeLanguage: string;
+  learningLanguage: string;
+  location: string;
+  isOnBoarded: boolean;
+  friends: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 };

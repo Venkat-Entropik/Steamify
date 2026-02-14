@@ -9,7 +9,7 @@ export async function getRecomendedUsers(req, res) {
     const recommendedUser = await User.find({
       $and: [
         { _id: { $ne: currentUserId } }, // exclude current user
-        { $id: { $nin: currentUser.friends } }, // exclude frineds,
+        { _id: { $nin: currentUser.friends } }, // exclude frineds,
         { isOnBoarded: true },
       ],
     });
@@ -104,7 +104,7 @@ export async function acceptFriendRequest(req, res) {
         .json({ message: "You are not authorized to accept this request" });
     }
 
-    friendRequest.status === "accepted";
+    friendRequest.status = "accepted";
 
     await friendRequest.save();
 
@@ -137,6 +137,8 @@ export async function getFriendRequests(req, res) {
       sender: req.user.id,
       status: "accepted",
     }).populate("recipient", "fullName profilePic");
+
+    res.status(200).json({ incomingReqs, acceptedReqs: acceptedRequests });
   } catch (error) {
     console.error("Error in accepting the frined request", error.message);
     res.status(500).json({ message: "Internal Server error" });
