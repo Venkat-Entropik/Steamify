@@ -7,6 +7,7 @@ import { emailRegexPattern } from "../../utils/Static";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import authServices from "../../services/auth.services";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 // import useSignUp from "../hooks/useSignUp";
 
@@ -24,11 +25,10 @@ const SignUpPage = () => {
   const {
     mutate: signupMutation,
     isPending,
-    error,
   } = useMutation({
     mutationFn: authServices.signUp,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-    onError: (error) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error?.response?.data?.message || "Signup failed.");
     },
   });

@@ -152,7 +152,7 @@ const LoginPage = () => {
                 alt="Language connection illustration"
                 className="w-full h-full"
                 draggable="false"
-                fetchpriority="high"
+                fetchPriority="high"
               />
             </div>
 

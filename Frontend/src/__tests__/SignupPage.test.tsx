@@ -1,7 +1,7 @@
 import SignUpPage from "../pages/SignupPage/SignupPage";
 import { MemoryRouter } from "react-router";
 import { screen, render, fireEvent, waitFor } from "@testing-library/react";
-import { describe, expect, test } from "@jest/globals";
+import { describe, test } from "@jest/globals";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -12,9 +12,9 @@ describe("test", () => {
     const queryClient = createTestQueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-      <MemoryRouter>
-        <SignUpPage />
-      </MemoryRouter>
+        <MemoryRouter>
+          <SignUpPage />
+        </MemoryRouter>
       </QueryClientProvider>
     );
     const isComponentedMounted = screen.getByTestId("signup");
@@ -25,9 +25,9 @@ describe("test", () => {
     const queryClient = createTestQueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-      <MemoryRouter>
-        <SignUpPage />
-      </MemoryRouter>
+        <MemoryRouter>
+          <SignUpPage />
+        </MemoryRouter>
       </QueryClientProvider>
     );
     const fullNameInputPresnt = screen.getByPlaceholderText("John Doe");
@@ -46,9 +46,9 @@ describe("test", () => {
     const queryClient = createTestQueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-      <MemoryRouter>
-        <SignUpPage />
-      </MemoryRouter>
+        <MemoryRouter>
+          <SignUpPage />
+        </MemoryRouter>
       </QueryClientProvider>
     );
 
@@ -69,9 +69,9 @@ describe("test", () => {
     const queryClient = createTestQueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-      <MemoryRouter>
-        <SignUpPage />
-      </MemoryRouter>
+        <MemoryRouter>
+          <SignUpPage />
+        </MemoryRouter>
       </QueryClientProvider>
     );
     const user = userEvent.setup();

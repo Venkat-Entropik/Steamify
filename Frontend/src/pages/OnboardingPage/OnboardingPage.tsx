@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 // import { completeOnboarding } from "../lib/api";
 import {
   LoaderIcon,
@@ -25,8 +25,7 @@ const OnboardingPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    getValues,
+    formState: { isSubmitting, isValid },
     setValue,
     watch,
   } = useForm<onBoardingType>({
@@ -48,8 +47,8 @@ const OnboardingPage = () => {
       navigate("/");
     },
 
-    onError: (error) => {
-      toast.error(error.response.data.message);
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data?.message || "Something went wrong");
     },
   });
 
@@ -66,7 +65,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4"  data-theme="primary">
+    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4" data-theme="primary">
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">

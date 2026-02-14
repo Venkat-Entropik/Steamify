@@ -1,9 +1,9 @@
-import type { JSX } from "react";
+import type { JSX, LazyExoticComponent, ComponentType } from "react";
 
 export type route = {
   routeProps: {
     path: string;
-    element: () => JSX.Element;
+    element: LazyExoticComponent<any> | ComponentType<any> | (() => JSX.Element);
   };
   name: string;
 };
@@ -16,7 +16,7 @@ export type signUpPayloadType = {
   fullName: string;
 };
 
-export type loginPayloadType = Omit<signUpPayloadType,"fullName">
+export type loginPayloadType = Omit<signUpPayloadType, "fullName">
 
 export type onBoardingType = {
   fullName: string;

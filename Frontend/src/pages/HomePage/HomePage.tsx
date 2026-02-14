@@ -19,7 +19,7 @@ import type { UserType } from "../../types/streamify.types";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
-  const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
+  const [outgoingRequestsIds, setOutgoingRequestsIds] = useState<Set<string>>(new Set());
 
   const { data: friends, isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -31,8 +31,8 @@ const HomePage = () => {
     queryFn: usersServices.getRecommendedUsers,
   });
 
-  const recommendationsList : UserType[]= recommendedUsers?.data || []
-  const friendsList: UserType[] = friends?.data || []
+  const recommendationsList: UserType[] = recommendedUsers?.data || [];
+  const friendsList: UserType[] = friends?.data || [];
 
   const { data: outgoingFriendReqs } = useQuery({
     queryKey: ["outgoingFriendReqs"],
@@ -46,9 +46,10 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    const outgoingIds = new Set();
-    if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
-      outgoingFriendReqs.forEach((req) => {
+    const outgoingIds = new Set<string>();
+    const reqs = outgoingFriendReqs?.data;
+    if (reqs && reqs.length > 0) {
+      reqs.forEach((req: { recipient: { _id: string } }) => {
         outgoingIds.add(req.recipient._id);
       });
       setOutgoingRequestsIds(outgoingIds);
@@ -160,9 +161,8 @@ const HomePage = () => {
 
                         {/* Action button */}
                         <button
-                          className={`btn w-full mt-2 ${
-                            hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                          } `}
+                          className={`btn w-full mt-2 ${hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+                            } `}
                           onClick={() => sendRequestMutation(user._id)}
                           disabled={hasRequestBeenSent || isPending}
                         >
