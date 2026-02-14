@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;
-  showSidebar?: boolean;
+  showSidebar?: any;
 }
 
 const Layout = ({ children, showSidebar = true }: LayoutProps) => {
