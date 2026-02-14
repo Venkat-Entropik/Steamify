@@ -65,7 +65,10 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4" data-theme="primary">
+    <div
+      className="min-h-screen bg-base-100 flex items-center justify-center p-4"
+      data-theme="primary"
+    >
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
@@ -77,7 +80,9 @@ const OnboardingPage = () => {
             <div className="flex flex-col items-center justify-center space-y-4">
               {/* IMAGE PREVIEW */}
               <div className="size-32 rounded-full bg-base-300 overflow-hidden">
-                {watch("profilePic") ? (
+                {
+                 // eslint-disable-next-line react-hooks/incompatible-library 
+                watch("profilePic") ? (
                   <img
                     src={watch("profilePic")}
                     alt="Profile Preview"
