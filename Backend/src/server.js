@@ -7,13 +7,16 @@ import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
 
 
 dotenv.config();
 
 const app = express();
 
-const __dirname = path.relative();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -29,12 +32,16 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
-if(process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname, "../Frontend/build")));
+if (process.env.NODE_ENV === "production") {
+
+  const frontendPath = path.resolve(__dirname, "../../Frontend/dist");
+
+  app.use(express.static(frontendPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
-  })
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+
 }
 
 app.listen(PORT, () => {
