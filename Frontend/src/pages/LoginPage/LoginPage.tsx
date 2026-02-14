@@ -1,5 +1,5 @@
 import { ShipWheelIcon } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import loginPageIllustration from "../../assets/signup-illustration.svg";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import authServices from "../../services/auth.services";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     formState: { isSubmitting, isValid, errors },
@@ -25,7 +26,10 @@ const LoginPage = () => {
     isPending,
   } = useMutation({
     mutationFn: authServices.login,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/");
+    },
     onError: (loginError) => toast.error(loginError.message)
   });
 

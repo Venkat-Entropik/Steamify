@@ -8,7 +8,7 @@ export type route = {
   name: string;
 };
 
-export type ChatPageProps = {};
+export type ChatPageProps = Record<string, never>;
 
 export type signUpPayloadType = {
   email: string;
