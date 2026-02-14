@@ -3,6 +3,20 @@ import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from "lucide-re
 import usersServices from "../../services/users.services";
 import NoNotificationsFound from "../../Components/NoNotificationsFound/NoNotificationsFound";
 
+interface FriendRequest {
+  _id: string;
+  sender: {
+    profilePic: string;
+    fullName: string;
+    nativeLanguage: string;
+    learningLanguage: string;
+  };
+  recipient: {
+    profilePic: string;
+    fullName: string;
+  };
+}
+
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
 
@@ -20,8 +34,10 @@ const NotificationsPage = () => {
     },
   });
 
-  const incomingRequests = friendRequests?.data?.incomingReqs || [];
-  const acceptedRequests = friendRequests?.data?.acceptedReqs || [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const incomingRequests = (friendRequests?.data as any)?.incomingReqs || [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const acceptedRequests = (friendRequests?.data as any)?.acceptedReqs || [];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -43,7 +59,7 @@ const NotificationsPage = () => {
                 </h2>
 
                 <div className="space-y-3">
-                  {incomingRequests.map((request) => (
+                  {incomingRequests.map((request: FriendRequest) => (
                     <div
                       key={request._id}
                       className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
@@ -91,7 +107,7 @@ const NotificationsPage = () => {
                 </h2>
 
                 <div className="space-y-3">
-                  {acceptedRequests.map((notification) => (
+                  {acceptedRequests.map((notification: FriendRequest) => (
                     <div key={notification._id} className="card bg-base-200 shadow-sm">
                       <div className="card-body p-4">
                         <div className="flex items-start gap-3">

@@ -1,7 +1,12 @@
 import { Link } from "react-router";
 import { LANGUAGE_TO_FLAG } from "../../utils/Static";
+import type { UserType } from "../../types/streamify.types";
 
-const FriendCard = ({ friend }) => {
+interface FriendCardProps {
+  friend: UserType;
+}
+
+const FriendCard = ({ friend }: FriendCardProps) => {
   return (
     <div className="card bg-base-200 hover:shadow-md transition-shadow">
       <div className="card-body p-4">
@@ -38,7 +43,7 @@ export function getLanguageFlag(language: string) {
   if (!language) return null;
 
   const langLower = language.toLowerCase();
-  const countryCode = LANGUAGE_TO_FLAG[langLower];
+  const countryCode = LANGUAGE_TO_FLAG[langLower as keyof typeof LANGUAGE_TO_FLAG];
 
   if (countryCode) {
     return (

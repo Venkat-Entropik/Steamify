@@ -3,9 +3,8 @@ import useAuthUser from "../../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import authServices from "../../services/auth.services";
-import type { UserType } from "../../types/streamify.types";
-import type { FC } from "react";
 import ThemeSelector from "../ThemeSelector/ThemeSelector";
+import type { FC } from "react";
 // import useLogout from "../hooks/useLogout";
 
 interface NavbarProps {
@@ -13,9 +12,8 @@ interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
-  const { authData } = useAuthUser();
+  useAuthUser();
   const location = useLocation();
-  const authUser: UserType = authData?.data;
   const isChatPage = location.pathname?.startsWith("/chat");
 
   const queryClient = useQueryClient();

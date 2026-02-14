@@ -12,6 +12,7 @@ import {
   StreamTheme,
   CallingState,
   useCallStateHooks,
+  Call,
 } from "@stream-io/video-react-sdk";
 
 import "@stream-io/video-react-sdk/dist/css/styles.css";
@@ -24,12 +25,12 @@ const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
 const CallPage = () => {
   const { id: callId } = useParams();
-  const [client, setClient] = useState(null);
-  const [call, setCall] = useState(null);
+  const [client, setClient] = useState<StreamVideoClient | null>(null);
+  const [call, setCall] = useState<Call | null>(null);
   const [isConnecting, setIsConnecting] = useState(true);
 
   const { authData, isLoading } = useAuthUser();
-  const authUser:UserType = authData?.data?.user;
+  const authUser: UserType = authData?.data?.user;
 
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
@@ -98,7 +99,14 @@ const CallContent = () => {
 
   const navigate = useNavigate();
 
-  if (callingState === CallingState.LEFT) return navigate("/");
+
+  useEffect(() => {
+    if (callingState === CallingState.LEFT) {
+      navigate("/");
+    }
+  }, [callingState, navigate]);
+
+  if (callingState === CallingState.LEFT) return null;
 
   return (
     <StreamTheme>

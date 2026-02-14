@@ -12,6 +12,7 @@ import {
   Thread,
   Window,
 } from "stream-chat-react";
+import type { Channel as StreamChannel } from "stream-chat";
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
 
@@ -26,12 +27,12 @@ const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 const ChatPage = () => {
   const { id: targetUserId } = useParams();
 
-  const [chatClient, setChatClient] = useState(null);
-  const [channel, setChannel] = useState(null);
+  const [chatClient, setChatClient] = useState<StreamChat | null>(null);
+  const [channel, setChannel] = useState<StreamChannel | null>(null);
   const [loading, setLoading] = useState(true);
 
   const { authData } = useAuthUser();
-  const authUser:UserType =authData?.data?.user
+  const authUser: UserType = authData?.data?.user;
 
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
@@ -56,6 +57,8 @@ const ChatPage = () => {
         );
 
         //
+        if (!targetUserId) return;
+
         const channelId = [authUser._id, targetUserId].sort().join("-");
 
         // you and me
@@ -92,7 +95,7 @@ const ChatPage = () => {
       toast.success("Video call link sent successfully!");
     }
   };
-  
+
   if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
