@@ -1,21 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from "lucide-react";
+import {
+  BellIcon,
+  ClockIcon,
+  MessageSquareIcon,
+  UserCheckIcon,
+} from "lucide-react";
 import usersServices from "../../services/users.services";
 import NoNotificationsFound from "../../Components/NoNotificationsFound/NoNotificationsFound";
-
-interface FriendRequest {
-  _id: string;
-  sender: {
-    profilePic: string;
-    fullName: string;
-    nativeLanguage: string;
-    learningLanguage: string;
-  };
-  recipient: {
-    profilePic: string;
-    fullName: string;
-  };
-}
+import type { acceptedReqsType } from "../../types/streamify.types";
 
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
@@ -23,7 +15,7 @@ const NotificationsPage = () => {
   const { data: friendRequests, isLoading } = useQuery({
     queryKey: ["friendRequests"],
     queryFn: usersServices.getFriendRequest,
-    retry: false
+    retry: false,
   });
 
   const { mutate: acceptRequestMutation, isPending } = useMutation({
@@ -34,15 +26,17 @@ const NotificationsPage = () => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const incomingRequests = (friendRequests?.data as any)?.incomingReqs || [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const acceptedRequests = (friendRequests?.data as any)?.acceptedReqs || [];
+  const incomingRequests: acceptedReqsType[] =
+    friendRequests?.data?.incomingReqs || [];
+  const acceptedRequests: acceptedReqsType[] =
+    friendRequests?.data?.acceptedReqs || [];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto max-w-4xl space-y-8">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">Notifications</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">
+          Notifications
+        </h1>
 
         {isLoading ? (
           <div className="flex justify-center py-12">
@@ -55,11 +49,13 @@ const NotificationsPage = () => {
                 <h2 className="text-xl font-semibold flex items-center gap-2">
                   <UserCheckIcon className="h-5 w-5 text-primary" />
                   Friend Requests
-                  <span className="badge badge-primary ml-2">{incomingRequests.length}</span>
+                  <span className="badge badge-primary ml-2">
+                    {incomingRequests.length}
+                  </span>
                 </h2>
 
                 <div className="space-y-3">
-                  {incomingRequests.map((request: FriendRequest) => (
+                  {incomingRequests.map((request: acceptedReqsType) => (
                     <div
                       key={request._id}
                       className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
@@ -68,10 +64,15 @@ const NotificationsPage = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="avatar w-14 h-14 rounded-full bg-base-300">
-                              <img src={request.sender.profilePic} alt={request.sender.fullName} />
+                              <img
+                                src={request.sender.profilePic}
+                                alt={request.sender.fullName}
+                              />
                             </div>
                             <div>
-                              <h3 className="font-semibold">{request.sender.fullName}</h3>
+                              <h3 className="font-semibold">
+                                {request.sender.fullName}
+                              </h3>
                               <div className="flex flex-wrap gap-1.5 mt-1">
                                 <span className="badge badge-secondary badge-sm">
                                   Native: {request.sender.nativeLanguage}
@@ -107,8 +108,11 @@ const NotificationsPage = () => {
                 </h2>
 
                 <div className="space-y-3">
-                  {acceptedRequests.map((notification: FriendRequest) => (
-                    <div key={notification._id} className="card bg-base-200 shadow-sm">
+                  {acceptedRequests.map((notification: acceptedReqsType) => (
+                    <div
+                      key={notification._id}
+                      className="card bg-base-200 shadow-sm"
+                    >
                       <div className="card-body p-4">
                         <div className="flex items-start gap-3">
                           <div className="avatar mt-1 size-10 rounded-full">
@@ -118,9 +122,12 @@ const NotificationsPage = () => {
                             />
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-semibold">{notification.recipient.fullName}</h3>
+                            <h3 className="font-semibold">
+                              {notification.recipient.fullName}
+                            </h3>
                             <p className="text-sm my-1">
-                              {notification.recipient.fullName} accepted your friend request
+                              {notification.recipient.fullName} accepted your
+                              friend request
                             </p>
                             <p className="text-xs flex items-center opacity-70">
                               <ClockIcon className="h-3 w-3 mr-1" />

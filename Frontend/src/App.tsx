@@ -16,14 +16,11 @@ const App: FC = () => {
   const { isLoading, authData } = useAuthUser();
   const { theme } = useThemeStore()
 
-  console.log("--- loading", isLoading);
-
   if (isLoading) {
     return <PageLoader />
   }
 
   const authUser: UserType | undefined = authData?.data?.user;
-
   const isAuthenticated: boolean = Boolean(authUser);
   const isOnboarded: boolean | undefined = authUser?.isOnBoarded;
 

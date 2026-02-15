@@ -21,16 +21,14 @@ const LoginPage = () => {
 
   // This is how we did it at first, without using our custom hook
   const queryClient = useQueryClient();
-  const {
-    mutate: loginMutation,
-    isPending,
-  } = useMutation({
+  const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: authServices.login,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      navigate("/");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] }).then(() => {
+        navigate("/");
+      });
     },
-    onError: (loginError) => toast.error(loginError.message)
+    onError: (loginError) => toast.error(loginError.message),
   });
 
   // This is how we did it using our custom hook - optimized version

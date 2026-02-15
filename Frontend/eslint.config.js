@@ -48,7 +48,7 @@ export default [
         "warn",
         { argsIgnorePattern: "^_" },
       ],
-      "@typescript-eslint/no-explicit-any": "off", // turn off for now
+      "@typescript-eslint/no-explicit-any": "error", // turn off for now
     },
   },
 ];
