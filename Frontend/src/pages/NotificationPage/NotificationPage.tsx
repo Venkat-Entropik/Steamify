@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import usersServices from "../../services/users.services";
 import NoNotificationsFound from "../../Components/NoNotificationsFound/NoNotificationsFound";
-import type { acceptedReqsType } from "../../types/streamify.types";
+import type { acceptedReqsType, inComingReqsType } from "../../types/streamify.types";
 
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
@@ -26,7 +26,7 @@ const NotificationsPage = () => {
     },
   });
 
-  const incomingRequests: acceptedReqsType[] =
+  const incomingRequests: inComingReqsType[] =
     friendRequests?.data?.incomingReqs || [];
   const acceptedRequests: acceptedReqsType[] =
     friendRequests?.data?.acceptedReqs || [];
@@ -55,7 +55,7 @@ const NotificationsPage = () => {
                 </h2>
 
                 <div className="space-y-3">
-                  {incomingRequests.map((request: acceptedReqsType) => (
+                  {incomingRequests.map((request: inComingReqsType) => (
                     <div
                       key={request._id}
                       className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
