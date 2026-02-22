@@ -1,6 +1,6 @@
 import Sidebar from "../Sidebar/Sidebar";
 import NavBar from "../NavBar/NavBar";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,16 +9,15 @@ interface LayoutProps {
 
 const Layout = ({ children, showSidebar = true }: LayoutProps) => {
   // Generate random Number from 0 to 300
-
-  const getRandomNumber: number = Math.floor(Math.random() * 300);
+  const [randomNumber] = useState(() => Math.floor(Math.random() * 300));
 
   return (
     <div className="min-h-screen">
       <div className="flex">
-        {showSidebar && <Sidebar getRandomNumber={getRandomNumber} />}
+        {showSidebar && <Sidebar getRandomNumber={randomNumber} />}
 
         <div className="flex-1 flex flex-col">
-          <NavBar randomNumber={getRandomNumber} />
+          <NavBar randomNumber={randomNumber} />
 
           <main className="flex-1 overflow-y-auto">{children}</main>
         </div>

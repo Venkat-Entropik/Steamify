@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import { LANGUAGE_TO_FLAG } from "../../utils/Static";
-import type { UserType } from "../../types/streamify.types";
+import type { friendType } from "../../types/streamify.types";
 
 interface FriendCardProps {
-  friend: UserType;
+  friend: friendType;
 }
 
 const FriendCard = ({ friend }: FriendCardProps) => {

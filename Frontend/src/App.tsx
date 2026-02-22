@@ -10,20 +10,17 @@ import Layout from "./Components/Layout/Layout";
 import { useThemeStore } from "./store/useThemeStore";
 import PageLoader from "./Components/Loader/PageLoader";
 
-interface AppProps {}
 
-const App: FC<AppProps> = () => {
+
+const App: FC = () => {
   const { isLoading, authData } = useAuthUser();
-  const {theme} = useThemeStore()
-
-  console.log("--- loading", isLoading);
+  const { theme } = useThemeStore()
 
   if (isLoading) {
-   return <PageLoader />
+    return <PageLoader />
   }
 
   const authUser: UserType | undefined = authData?.data?.user;
-
   const isAuthenticated: boolean = Boolean(authUser);
   const isOnboarded: boolean | undefined = authUser?.isOnBoarded;
 

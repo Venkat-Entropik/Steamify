@@ -1,18 +1,15 @@
 import { Link, useLocation } from "react-router";
-import useAuthUser from "../../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import authServices from "../../services/auth.services";
 import ThemeSelector from "../ThemeSelector/ThemeSelector";
 import type { FC } from "react";
-// import useLogout from "../hooks/useLogout";
 
 interface NavbarProps {
   randomNumber: number;
 }
 
 const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
-  useAuthUser();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
 

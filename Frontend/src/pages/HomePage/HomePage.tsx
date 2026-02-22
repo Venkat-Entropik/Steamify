@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import usersServices from "../../services/users.services";
 import { Link } from "react-router";
 import {
@@ -19,7 +19,6 @@ import type { UserType } from "../../types/streamify.types";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
-  const [outgoingRequestsIds, setOutgoingRequestsIds] = useState<Set<string>>(new Set());
 
   const { data: friends, isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -39,22 +38,22 @@ const HomePage = () => {
     queryFn: usersServices.getOutGoingFriendRequest,
   });
 
+  const outgoingRequestsIds = useMemo(() => {
+    const ids = new Set<string>();
+    const reqs = outgoingFriendReqs?.data;
+    if (reqs && reqs.length > 0) {
+      reqs.forEach((req: { recipient: { _id: string } }) => {
+        ids.add(req.recipient._id);
+      });
+    }
+    return ids;
+  }, [outgoingFriendReqs]);
+
   const { mutate: sendRequestMutation, isPending } = useMutation({
     mutationFn: usersServices.sendFriendRequest,
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["outgoingFriendReqs"] }),
   });
-
-  useEffect(() => {
-    const outgoingIds = new Set<string>();
-    const reqs = outgoingFriendReqs?.data;
-    if (reqs && reqs.length > 0) {
-      reqs.forEach((req: { recipient: { _id: string } }) => {
-        outgoingIds.add(req.recipient._id);
-      });
-      setOutgoingRequestsIds(outgoingIds);
-    }
-  }, [outgoingFriendReqs]);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">

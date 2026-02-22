@@ -1,5 +1,5 @@
 import { ShipWheelIcon } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import loginPageIllustration from "../../assets/signup-illustration.svg";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import authServices from "../../services/auth.services";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     formState: { isSubmitting, isValid, errors },
@@ -20,13 +21,14 @@ const LoginPage = () => {
 
   // This is how we did it at first, without using our custom hook
   const queryClient = useQueryClient();
-  const {
-    mutate: loginMutation,
-    isPending,
-  } = useMutation({
+  const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: authServices.login,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-    onError: (loginError) => toast.error(loginError.message)
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] }).then(() => {
+        navigate("/");
+      });
+    },
+    onError: (loginError) => toast.error(loginError.message),
   });
 
   // This is how we did it using our custom hook - optimized version

@@ -3,12 +3,15 @@ import type { JSX, LazyExoticComponent, ComponentType } from "react";
 export type route = {
   routeProps: {
     path: string;
-    element: LazyExoticComponent<any> | ComponentType<any> | (() => JSX.Element);
+    element:
+      | LazyExoticComponent<any>
+      | ComponentType<any>
+      | (() => JSX.Element);
   };
   name: string;
 };
 
-export type ChatPageProps = {};
+export type ChatPageProps = Record<string, never>;
 
 export type signUpPayloadType = {
   email: string;
@@ -16,7 +19,7 @@ export type signUpPayloadType = {
   fullName: string;
 };
 
-export type loginPayloadType = Omit<signUpPayloadType, "fullName">
+export type loginPayloadType = Omit<signUpPayloadType, "fullName">;
 
 export type onBoardingType = {
   fullName: string;
@@ -42,3 +45,46 @@ export type UserType = {
   updatedAt: string;
   __v: number;
 };
+
+export type friendType = Pick<
+  UserType,
+  "_id" | "fullName" | "learningLanguage" | "nativeLanguage" | "profilePic"
+>;
+
+export type requestStatus = "pending" | "accepted";
+
+export type recipientType = Pick<UserType, "_id" | "fullName" | "profilePic">;
+
+export type senderTypes = Pick<
+  UserType,
+  "_id" | "profilePic" | "fullName" | "nativeLanguage" | "learningLanguage"
+>;
+
+export interface acceptedReqsType {
+  _id: string;
+  sender: string;
+  recipient: recipientType;
+  status: recipientType;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface inComingReqsType {
+  _id: string;
+  sender: senderTypes;
+  recipient: recipientType;
+  status: recipientType;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export type acceptedFriendRequestType = Record<
+  "acceptedReqs",
+  acceptedReqsType[]
+>;
+export type incomingFriendRequestType = Record<
+  "incomingReqs",
+  inComingReqsType[]
+>;

@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-// import { completeOnboarding } from "../lib/api";
 import {
   LoaderIcon,
   MapPinIcon,
@@ -65,7 +64,10 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4" data-theme="primary">
+    <div
+      className="min-h-screen bg-base-100 flex items-center justify-center p-4"
+      data-theme="primary"
+    >
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
@@ -73,11 +75,11 @@ const OnboardingPage = () => {
           </h1>
 
           <form onSubmit={handleSubmit(submit)} className="space-y-6">
-            {/* PROFILE PIC CONTAINER */}
             <div className="flex flex-col items-center justify-center space-y-4">
-              {/* IMAGE PREVIEW */}
               <div className="size-32 rounded-full bg-base-300 overflow-hidden">
-                {watch("profilePic") ? (
+                {
+                 // eslint-disable-next-line react-hooks/incompatible-library 
+                watch("profilePic") ? (
                   <img
                     src={watch("profilePic")}
                     alt="Profile Preview"
@@ -90,7 +92,6 @@ const OnboardingPage = () => {
                 )}
               </div>
 
-              {/* Generate Random Avatar BTN */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
@@ -103,7 +104,6 @@ const OnboardingPage = () => {
               </div>
             </div>
 
-            {/* FULL NAME */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Full Name</span>
@@ -170,7 +170,6 @@ const OnboardingPage = () => {
                 </select>
               </div>
 
-              {/* LEARNING LANGUAGE */}
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Learning Language</span>
@@ -194,7 +193,6 @@ const OnboardingPage = () => {
               </div>
             </div>
 
-            {/* LOCATION */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Location</span>
@@ -214,8 +212,6 @@ const OnboardingPage = () => {
                 />
               </div>
             </div>
-
-            {/* SUBMIT BUTTON */}
 
             <button
               className="btn btn-primary w-full"
