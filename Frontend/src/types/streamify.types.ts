@@ -55,7 +55,10 @@ export type requestStatus = "pending" | "accepted";
 
 export type recipientType = Pick<UserType, "_id" | "fullName" | "profilePic">;
 
-export type senderTypes = Pick<UserType, "_id" | "profilePic" | "fullName" | "nativeLanguage" | "learningLanguage">
+export type senderTypes = Pick<
+  UserType,
+  "_id" | "profilePic" | "fullName" | "nativeLanguage" | "learningLanguage"
+>;
 
 export interface acceptedReqsType {
   _id: string;
@@ -77,6 +80,11 @@ export interface inComingReqsType {
   __v: number;
 }
 
-export type acceptedFriendRequestType = Record<"acceptedReqs", acceptedReqsType[]>;
-export type incomingFriendRequestType = Record<"incomingReqs", inComingReqsType[]>;
-
+export type acceptedFriendRequestType = Record<
+  "acceptedReqs",
+  acceptedReqsType[]
+>;
+export type incomingFriendRequestType = Record<
+  "incomingReqs",
+  inComingReqsType[]
+>;

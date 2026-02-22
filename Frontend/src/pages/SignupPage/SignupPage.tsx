@@ -9,8 +9,6 @@ import authServices from "../../services/auth.services";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
-// import useSignUp from "../hooks/useSignUp";
-
 const SignUpPage = () => {
   const {
     register,
@@ -32,9 +30,6 @@ const SignUpPage = () => {
       toast.error(error?.response?.data?.message || "Signup failed.");
     },
   });
-
-  // This is how we did it using our custom hook - optimized version
-  // const { isPending, error, signupMutation } = useSignUp();
 
   const handleSignup = (data: signUpPayloadType) => {
     signupMutation(data);
@@ -96,7 +91,6 @@ const SignUpPage = () => {
                       required
                     />
                   </div>
-                  {/* EMAIL */}
                   <div className="form-control w-full">
                     <label className="label">
                       <span className="label-text">Email</span>
@@ -115,7 +109,6 @@ const SignUpPage = () => {
                       required
                     />
                   </div>
-                  {/* PASSWORD */}
                   <div className="form-control w-full">
                     <label className="label">
                       <span className="label-text">Password</span>
