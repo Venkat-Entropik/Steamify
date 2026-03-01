@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 
-const BASE_URL = "http://localhost:5001";
+const BASE_URL =
+ import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5001";
 
 interface socketStore {
   socket: Socket | null;
@@ -14,7 +15,12 @@ export const useSocketStore = create<socketStore>((set, get) => ({
   socket: null,
   onlineUsers: [],
   connectSocket: () => {
-    if (get().socket?.connected) return;
+    const existingSocket = get().socket;
+    if (existingSocket?.connected) return;
+    if (existingSocket) {
+      existingSocket.off("getOnlineUsers");
+      existingSocket.disconnect();
+    }
 
     const socket = io(BASE_URL, {
       withCredentials: true,
@@ -29,9 +35,10 @@ export const useSocketStore = create<socketStore>((set, get) => ({
   },
 
   disconnectSocket: () => {
-    if (get().socket?.connected) {
-      get().socket?.disconnect();
-      set({ socket: null });
-    }
+    const socket = get().socket;
+    if (!socket) return;
+    socket.off("getOnlineUsers");
+    socket.disconnect();
+    set({ socket: null, onlineUsers: [] });
   },
 }));
