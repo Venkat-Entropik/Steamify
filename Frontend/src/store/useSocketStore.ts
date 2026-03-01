@@ -7,13 +7,17 @@ const BASE_URL =
 interface socketStore {
   socket: Socket | null;
   onlineUsers: string[];
+  messages: any;
   connectSocket: () => void;
   disconnectSocket: () => void;
+  subscribeToMessage: () => void;
+  unSubscribeFromMessages: () => void;
 }
 
 export const useSocketStore = create<socketStore>((set, get) => ({
   socket: null,
   onlineUsers: [],
+  messages: [],
   connectSocket: () => {
     const existingSocket = get().socket;
     if (existingSocket?.connected) return;
@@ -41,4 +45,20 @@ export const useSocketStore = create<socketStore>((set, get) => ({
     socket.disconnect();
     set({ socket: null, onlineUsers: [] });
   },
+
+  subscribeToMessage: () => {
+    const socket = get()?.socket;
+    if (!socket) return;
+
+    socket?.on("newMessage", (newMessage) => {
+      const currentMessages = get().messages;
+      set({ messages: [...currentMessages, newMessage] });
+    });
+  },
+
+  unSubscribeFromMessages: () => {
+    const socket = get().socket;
+    if(!socket) return;
+    socket.off("newMessage")
+  }
 }));

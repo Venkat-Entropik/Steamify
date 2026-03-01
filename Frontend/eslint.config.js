@@ -5,21 +5,23 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 
 export default [
-  { ignores: ["dist"] },
+  {
+    ignores: [
+      "dist",
+      "node_modules",
+      "babel.config.cjs",
+      "jest.config.cjs",
+      "test",
+      "**/*.js",
+      "**/*.cjs",
+    ],
+  },
 
   js.configs.recommended,
   ...tseslint.configs.recommended,
 
-  // Node config files (fixes module is not defined)
   {
-    files: ["*.cjs"],
-    languageOptions: {
-      globals: globals.node,
-    },
-  },
-
-  {
-    files: ["**/*.{ts,tsx}"],
+    files: ["src/**/*.{ts,tsx}"],
 
     languageOptions: {
       ecmaVersion: 2020,
@@ -32,18 +34,18 @@ export default [
     },
 
     rules: {
-      // React
       ...reactHooks.configs.recommended.rules,
+
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
       ],
 
-      // Keep only useful clean rules
+      // Clean rules
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "warn",
 
-      // TypeScript basics
+      // TypeScript rules
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_" },
