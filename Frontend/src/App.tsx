@@ -11,6 +11,7 @@ import { useThemeStore } from "./store/useThemeStore";
 import PageLoader from "./Components/Loader/PageLoader";
 import { useSocketStore } from "./store/useSocketStore";
 
+
 const App: FC = () => {
   const { isLoading, authData } = useAuthUser();
   const { theme } = useThemeStore();
