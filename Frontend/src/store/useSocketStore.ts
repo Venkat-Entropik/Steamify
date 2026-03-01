@@ -4,10 +4,16 @@ import { io, Socket } from "socket.io-client";
 const BASE_URL =
  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5001";
 
+ interface Message {
+  senderId: string;
+  receiverId: string;
+  text: string;
+}
+
 interface socketStore {
   socket: Socket | null;
   onlineUsers: string[];
-  messages: any;
+  messages: Message[];
   connectSocket: () => void;
   disconnectSocket: () => void;
   subscribeToMessage: () => void;
