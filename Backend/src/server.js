@@ -8,11 +8,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import { app, server } from "./lib/socket.js";
 
 
 dotenv.config();
-
-const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,7 +43,7 @@ if (process.env.NODE_ENV === "production") {
 
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running in port ${PORT}`);
   connectDB();
 });

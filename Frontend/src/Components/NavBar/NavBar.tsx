@@ -49,9 +49,7 @@ const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
           <div className="avatar">
             <div className="w-9 rounded-full">
               <img
-                src={
-                  `https://testingbot.com/free-online-tools/random-avatar/${randomNumber}`
-                }
+                src={`https://testingbot.com/free-online-tools/random-avatar/${randomNumber}`}
                 alt="User Avatar"
                 rel="noreferrer"
               />
@@ -60,7 +58,9 @@ const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
 
           <button
             className="btn btn-ghost btn-circle"
-            onClick={() => logoutMutation()}
+            onClick={() => {
+              logoutMutation();
+            }}
           >
             <LogOutIcon className="h-6 w-6 text-base-content opacity-70" />
           </button>

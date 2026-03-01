@@ -7,23 +7,23 @@ export const protectedRoute = async (req, res, next) => {
     if (!token)
       return res
         .status(401)
-        .json({ message: "Unuthorized - No token Provided" });
+        .json({ message: "Unauthorized - No token Provided" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     if (!decoded)
-      return res.status(401).json({ message: "Unuthorized - Invalid Token" });
+      return res.status(401).json({ message: "Unauthorized - Invalid token" });
 
     const user = await User.findById(decoded.userId).select("-password");
 
     if (!user)
-      return res.status(401).json({ message: "Unuthorized - User not found" });
+      return res.status(401).json({ message: "Unauthorized - User not found" });
 
     req.user = user;
 
     next();
   } catch (error) {
-    console.error("Protected Route error:", error)
+    console.error("Protected route error:", error)
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

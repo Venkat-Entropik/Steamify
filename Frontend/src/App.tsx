@@ -1,4 +1,4 @@
-import { Suspense, type FC } from "react";
+import { Suspense, useEffect, type FC } from "react";
 import { routes } from "./routes";
 import { Navigate, Route, Routes } from "react-router";
 import type { route, UserType } from "./types/streamify.types";
@@ -9,20 +9,29 @@ import useAuthUser from "./hooks/useAuthUser";
 import Layout from "./Components/Layout/Layout";
 import { useThemeStore } from "./store/useThemeStore";
 import PageLoader from "./Components/Loader/PageLoader";
-
+import { useSocketStore } from "./store/useSocketStore";
 
 
 const App: FC = () => {
   const { isLoading, authData } = useAuthUser();
-  const { theme } = useThemeStore()
-
-  if (isLoading) {
-    return <PageLoader />
-  }
+  const { theme } = useThemeStore();
+  const { connectSocket, disconnectSocket } = useSocketStore();
 
   const authUser: UserType | undefined = authData?.data?.user;
   const isAuthenticated: boolean = Boolean(authUser);
   const isOnboarded: boolean | undefined = authUser?.isOnBoarded;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      connectSocket();
+    } else {
+      disconnectSocket();
+    }
+  }, [isAuthenticated, connectSocket, disconnectSocket]);
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   const getElement = (props: route) => {
     const Element = props.routeProps.element;
