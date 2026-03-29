@@ -1,13 +1,10 @@
-import type { JSX, LazyExoticComponent, ComponentType } from "react";
+import type { JSX } from "react";
 import type { Socket } from "socket.io-client";
 
 export type route = {
   routeProps: {
     path: string;
-    element:
-      | LazyExoticComponent<any>
-      | ComponentType<any>
-      | (() => JSX.Element);
+    element: React.ReactElement | React.ReactNode | (() => JSX.Element);
   };
   name: string;
 };
