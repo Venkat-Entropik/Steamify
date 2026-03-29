@@ -1,24 +1,24 @@
 import { XIcon } from "lucide-react";
-import { useChatStore } from "../store/useChatStore";
+import { useSocketStore } from "../../store/useSocketStore";
 import { useEffect } from "react";
-import { useAuthStore } from "../store/useAuthStore";
 
 function ChatHeader() {
-  const { selectedUser, setSelectedUser } = useChatStore();
-//   const { onlineUsers } = useAuthStore();
-  const isOnline = onlineUsers.includes(selectedUser._id);
+  const { selectedUser, setSelectedUser, onlineUsers } = useSocketStore();
+  const isOnline = selectedUser ? onlineUsers.includes(selectedUser._id) : false;
 
+  
   useEffect(() => {
-    const handleEscKey = (event) => {
+    const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setSelectedUser(null);
     };
-
+    
     window.addEventListener("keydown", handleEscKey);
-
+    
     // cleanup function
     return () => window.removeEventListener("keydown", handleEscKey);
   }, [setSelectedUser]);
-
+  
+  if (!selectedUser) return null;
   return (
     <div
       className="flex justify-between items-center bg-slate-800/50 border-b

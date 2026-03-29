@@ -6,19 +6,19 @@ import type { UserType } from "../../types/streamify.types";
 function ProfileHeader() {
   const {authData } = useAuthUser();
   const authUser:UserType = authData?.data
-  const [selectedImg, setSelectedImg] = useState(null);
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onloadend = async () => {
-      const base64Image = reader.result;
+      const base64Image = reader.result as string;
       setSelectedImg(base64Image);
       // await updateProfile({ profilePic: base64Image });
     };
@@ -32,7 +32,7 @@ function ProfileHeader() {
           <div className="avatar online">
             <button
               className="size-14 rounded-full overflow-hidden relative group"
-              onClick={() => fileInputRef.current.click()}
+              onClick={() => fileInputRef.current?.click()}
             >
               <img
                 src={selectedImg || authUser.profilePic || "/avatar.png"}

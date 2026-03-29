@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { MessageInput } from "stream-chat-react";
+import MessageInput from "../MessageInput/MessageInput";
 import ChatHeader from "../ChatHeader/ChatHeader";
 import MessagesLoadingSkeleton from "../MessagesLoadingSkeleton/MessagesLoadingSkeleton";
 import NoChatHistoryPlaceholder from "../NoChatHistoryPlaceholder/NoChatHistoryPlaceholder";
@@ -11,21 +11,30 @@ import { useParams } from "react-router";
 function ChatContainer() {
   const { id: targetUserId } = useParams();
   const {
-    // getMessagesByUserId,
+    getMessagesByUserId,
     messages,
     subscribeToMessage,
     unSubscribeFromMessages,
+    isMessagesLoading,
+    getSelectedUser,
+    setSelectedUser,
   } = useSocketStore();
   const { authData } = useAuthUser();
-  const authUser:UserType = authData?.data;
+  const authUser: UserType = authData?.data?.user;
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    getMessagesByUserId(targetUserId);
+    if (targetUserId) {
+      getSelectedUser(targetUserId);
+      getMessagesByUserId(targetUserId);
+    }
     subscribeToMessage();
 
-    return () => unSubscribeFromMessages();
-  }, [subscribeToMessage, unSubscribeFromMessages, targetUserId]);
+    return () => {
+      unSubscribeFromMessages();
+      setSelectedUser(null);
+    };
+  }, [getMessagesByUserId, getSelectedUser, setSelectedUser, subscribeToMessage, unSubscribeFromMessages, targetUserId]);
 
   useEffect(() => {
     if (messageEndRef.current) {

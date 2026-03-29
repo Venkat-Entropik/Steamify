@@ -96,18 +96,28 @@ export interface sendMessages {
   image: string;
 }
 
-interface Message {
+export interface Message {
+  _id: string;
   senderId: string;
   receiverId: string;
-  text: string;
+  text?: string;
+  image?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface socketStore {
   socket: Socket | null;
   onlineUsers: string[];
   messages: Message[];
+  isMessagesLoading: boolean;
+  selectedUser: UserType | null;
+  setSelectedUser: (user: UserType | null) => void;
+  getSelectedUser: (userId: string) => Promise<void>;
   connectSocket: () => void;
   disconnectSocket: () => void;
   subscribeToMessage: () => void;
   unSubscribeFromMessages: () => void;
+  getMessagesByUserId: (userId: string | undefined) => Promise<void>;
+  sendMessage: (receiverId: string, messageData: { text?: string; image?: string | null }) => Promise<void>;
 }

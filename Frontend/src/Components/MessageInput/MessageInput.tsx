@@ -1,38 +1,42 @@
-import { useRef, useState } from "react";
-// import { useChatStore } from "../store/useChatStore";
+import React, { useRef, useState } from "react";
+import { useSocketStore } from "../../store/useSocketStore";
+import { useParams } from "react-router";
 import toast from "react-hot-toast";
 import { ImageIcon, SendIcon, XIcon } from "lucide-react";
 
 function MessageInput() {
+  const { id: targetUserId } = useParams<{ id: string }>();
   const [text, setText] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-//   const { sendMessage } = useChatStore();
+  const { sendMessage } = useSocketStore();
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
+    if (!targetUserId) return;
 
-    // sendMessage({
-    //   text: text.trim(),
-    //   image: imagePreview,
-    // });
+    sendMessage(targetUserId, {
+      text: text.trim(),
+      image: imagePreview,
+    });
     setText("");
-    setImagePreview("");
+    setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
     }
 
     const reader = new FileReader();
-    reader.onloadend = () => setImagePreview(reader.result);
+    reader.onloadend = () => setImagePreview(reader.result as string);
     reader.readAsDataURL(file);
   };
 
