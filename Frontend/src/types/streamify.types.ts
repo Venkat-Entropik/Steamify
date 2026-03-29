@@ -1,4 +1,5 @@
 import type { JSX, LazyExoticComponent, ComponentType } from "react";
+import type { Socket } from "socket.io-client";
 
 export type route = {
   routeProps: {
@@ -88,3 +89,25 @@ export type incomingFriendRequestType = Record<
   "incomingReqs",
   inComingReqsType[]
 >;
+
+export interface sendMessages {
+  id: string;
+  text: string;
+  image: string;
+}
+
+interface Message {
+  senderId: string;
+  receiverId: string;
+  text: string;
+}
+
+export interface socketStore {
+  socket: Socket | null;
+  onlineUsers: string[];
+  messages: Message[];
+  connectSocket: () => void;
+  disconnectSocket: () => void;
+  subscribeToMessage: () => void;
+  unSubscribeFromMessages: () => void;
+}

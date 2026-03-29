@@ -12,6 +12,8 @@ export const Constants = {
   // Chat constant
 
   CHAT_TOKEN: "/chat/token",
+  GET_MESSAGES_BY_USER_ID: "/api/messages",
+  SEND_MESSAGE: "/api/messages/send",
 
   // User Constants
 
