@@ -1,5 +1,3 @@
-// auth constants
-
 export const Constants = {
   // auth constants
 
