@@ -1,12 +1,10 @@
-import type { JSX, LazyExoticComponent, ComponentType } from "react";
+import type { FC } from "react";
+import type { Socket } from "socket.io-client";
 
 export type route = {
   routeProps: {
     path: string;
-    element:
-      | LazyExoticComponent<any>
-      | ComponentType<any>
-      | (() => JSX.Element);
+    element: FC;
   };
   name: string;
 };
@@ -88,3 +86,35 @@ export type incomingFriendRequestType = Record<
   "incomingReqs",
   inComingReqsType[]
 >;
+
+export interface sendMessages {
+  id: string;
+  text: string;
+  image: string;
+}
+
+export interface Message {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  text?: string;
+  image?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface socketStore {
+  socket: Socket | null;
+  onlineUsers: string[];
+  messages: Message[];
+  isMessagesLoading: boolean;
+  selectedUser: UserType | null;
+  setSelectedUser: (user: UserType | null) => void;
+  getSelectedUser: (userId: string) => Promise<void>;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
+  subscribeToMessage: () => void;
+  unSubscribeFromMessages: () => void;
+  getMessagesByUserId: (userId: string | undefined) => Promise<void>;
+  sendMessage: (receiverId: string, messageData: { text?: string; image?: string | null }) => Promise<void>;
+}

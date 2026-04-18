@@ -1,4 +1,4 @@
-import { io } from "../lib/socket.js";
+import { io, getReceiverSocketId } from "../lib/socket.js";
 import Message from "../models/Message.js";
 
 export const getMessagesByUserId = async (req, res) => {
@@ -44,7 +44,7 @@ export const sendRoutes = async (req, res) => {
 
     await newMessage.save();
 
-    const receiverSocketId = getMessagesByUserId(receiverId);
+    const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
