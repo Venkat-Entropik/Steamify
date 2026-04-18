@@ -2,11 +2,15 @@ import { useState, useRef } from "react";
 import { LogOutIcon } from "lucide-react";
 import useAuthUser from "../../hooks/useAuthUser";
 import type { UserType } from "../../types/streamify.types";
+import { useSocketStore } from "../../store/useSocketStore";
+import { useNavigate } from "react-router";
 
 function ProfileHeader() {
-  const {authData } = useAuthUser();
-  const authUser:UserType = authData?.data
+  const { unSubscribeFromMessages, setSelectedUser } = useSocketStore();
+  const { authData } = useAuthUser();
+  const authUser: UserType = authData?.data;
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +26,12 @@ function ProfileHeader() {
       setSelectedImg(base64Image);
       // await updateProfile({ profilePic: base64Image });
     };
+  };
+
+  const handleLogout = (): void => {
+    unSubscribeFromMessages();
+    setSelectedUser(null);
+    navigate("/")
   };
 
   return (
@@ -68,7 +78,7 @@ function ProfileHeader() {
           {/* LOGOUT BTN */}
           <button
             className="text-slate-400 hover:text-slate-200 transition-colors"
-            onClick={()=>{}}
+            onClick={handleLogout}
           >
             <LogOutIcon className="size-5" />
           </button>

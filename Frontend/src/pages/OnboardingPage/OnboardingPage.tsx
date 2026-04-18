@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import Avatar, { genConfig } from "react-nice-avatar";
 import {
   LoaderIcon,
   MapPinIcon,
@@ -13,6 +14,8 @@ import { LANGUAGES } from "../../utils/Static";
 import { useForm } from "react-hook-form";
 import authServices from "../../services/auth.services";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { Mars, Venus } from "lucide-react";
 
 const OnboardingPage = () => {
   const { authData } = useAuthUser();
@@ -26,6 +29,7 @@ const OnboardingPage = () => {
     handleSubmit,
     formState: { isSubmitting, isValid },
     setValue,
+    getValues,
     watch,
   } = useForm<onBoardingType>({
     defaultValues: {
@@ -38,6 +42,7 @@ const OnboardingPage = () => {
     },
     mode: "onBlur",
   });
+  const [isMale, setIsMale] = useState<boolean>(true);
   const { mutate: onboardingMutation, isPending } = useMutation({
     mutationFn: authServices.onBoarding,
     onSuccess: () => {
@@ -56,13 +61,21 @@ const OnboardingPage = () => {
   };
 
   const handleRandomAvatar = (): void => {
-    const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
-    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
-
-    setValue("profilePic", randomAvatar);
+    const config: unknown = genConfig({
+      sex: isMale ? "man" : "woman",
+    });
+    const stringifyConfig = JSON.stringify(config);
+    setValue("profilePic", stringifyConfig);
     toast.success("Random profile picture generated!");
   };
 
+  // const decodedObj = JSON.parse(getValues("profilePic") || "");
+
+  // console.log("config", decodedObj);
+
+  const handleChangeGender = (): void => {
+    setIsMale((prev) => !prev);
+  };
   return (
     <div
       className="min-h-screen bg-base-100 flex items-center justify-center p-4"
@@ -76,20 +89,32 @@ const OnboardingPage = () => {
 
           <form onSubmit={handleSubmit(submit)} className="space-y-6">
             <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="size-32 rounded-full bg-base-300 overflow-hidden">
+              <div className="size-32 rounded-full bg-base-300">
                 {
-                 // eslint-disable-next-line react-hooks/incompatible-library 
-                watch("profilePic") ? (
-                  <img
-                    src={watch("profilePic")}
-                    alt="Profile Preview"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    {/* <CameraIcon className="size-12 text-base-content opacity-40" /> */}
-                  </div>
-                )}
+                  // eslint-disable-next-line react-hooks/incompatible-library
+                  watch("profilePic") ? (
+                    <div className="relative">
+                      <Avatar
+                        className="w-32 h-32"
+                        {...(getValues("profilePic") as Record<string, string>)}
+                      />
+                      <div
+                        className="absolute right-[0px] bottom-[4px] w-[30px] h-[30px] rounded-full cursor-pointer p-[8px] bg-[#232933] flex items-center"
+                        onClick={handleChangeGender}
+                      >
+                        {isMale ? (
+                          <Mars color="#ffffff" />
+                        ) : (
+                          <Venus color="#ffffff" />
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      {/* <CameraIcon className="size-12 text-base-content opacity-40" /> */}
+                    </div>
+                  )
+                }
               </div>
 
               <div className="flex items-center gap-2">
