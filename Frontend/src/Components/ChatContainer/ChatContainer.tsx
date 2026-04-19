@@ -54,17 +54,22 @@ function ChatContainer() {
                 className={`chat ${msg.senderId === authUser._id ? "chat-end" : "chat-start"}`}
               >
                 <div
-                  className={`chat-bubble relative ${
+                  className={`chat-bubble relative min-h-[40px] px-4 py-2 rounded-2xl shadow-sm ${
                     msg.senderId === authUser._id
-                      ? "bg-cyan-600 text-white"
-                      : "bg-slate-800 text-slate-200"
+                      ? "bg-gradient-to-br from-primary to-primary-focus text-primary-content"
+                      : "bg-base-300 text-base-content"
                   }`}
                 >
                   {msg.image && (
-                    <img src={msg.image} alt="Shared" className="rounded-lg h-48 object-cover" />
+                    <div className="mb-2 relative group/img">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-0 group-hover/img:opacity-20 transition duration-300"></div>
+                      <img src={msg.image} alt="Shared" className="relative rounded-xl max-h-64 object-cover border border-base-content/5 shadow-inner" />
+                    </div>
                   )}
-                  {msg.text && <p className="mt-2">{msg.text}</p>}
-                  <p className="text-xs mt-1 opacity-75 flex items-center gap-1">
+                  {msg.text && <p className="text-[15px] leading-relaxed font-medium">{msg.text}</p>}
+                  <p className={`text-[10px] mt-1.5 font-bold uppercase tracking-widest opacity-40 flex items-center gap-1 ${
+                    msg.senderId === authUser._id ? "justify-end" : "justify-start"
+                  }`}>
                     {new Date(msg.createdAt).toLocaleTimeString(undefined, {
                       hour: "2-digit",
                       minute: "2-digit",

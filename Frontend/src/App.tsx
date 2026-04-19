@@ -40,7 +40,7 @@ const App: FC = () => {
     }
 
     if (!isAuthenticated) {
-      return <Navigate to={"/login"} />;
+      return <Navigate to={"/welcome"} />;
     }
 
     if (!isOnboarded) {
