@@ -163,3 +163,71 @@ export async function onboard(req, res) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
+export async function updateProfile(req, res) {
+  try {
+    const { profilePic, profilePicType = "image" } = req.body;
+    const userId = req.user._id;
+
+    if (!profilePic) {
+      return res.status(400).json({ message: "Profile picture is required" });
+    }
+
+    // Validation for uploaded images
+    if (profilePicType === "image") {
+      // Check if it's a valid Base64 image
+      if (!profilePic.startsWith("data:image/")) {
+        return res.status(400).json({ message: "Invalid image format" });
+      }
+
+      // Approximate size check (Base64 is ~33% larger than binary)
+      // 2MB binary is ~2.7MB Base64
+      const sizeInBytes = (profilePic.length * 3) / 4;
+      if (sizeInBytes > 2 * 1024 * 1024) {
+        return res.status(400).json({ message: "Image size must be less than 2MB" });
+      }
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user has updated their profile pic in the last week
+    if (user.lastProfilePicUpdate) {
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+      if (user.lastProfilePicUpdate > oneWeekAgo) {
+        const nextAvailableDate = new Date(user.lastProfilePicUpdate);
+        nextAvailableDate.setDate(nextAvailableDate.getDate() + 7);
+
+        return res.status(403).json({
+          message: "You can only update your profile picture once a week",
+          nextAvailableDate: nextAvailableDate.toISOString(),
+        });
+      }
+    }
+
+    user.profilePic = profilePic;
+    user.profilePicType = profilePicType;
+    user.lastProfilePicUpdate = new Date();
+    await user.save();
+
+    // Sync with Stream AI
+    try {
+      await createStreamUser({
+        id: user._id.toString(),
+        name: user.fullName,
+        image: profilePicType === "image" ? user.profilePic : "", // GetStream might not handle avatar JSON strings well, so we pass empty or we could pass a default URL
+      });
+      console.log("Stream User Profile Pic Updated");
+    } catch (error) {
+      console.error("Error updating stream user profile pic", error.message);
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("Update profile error", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}

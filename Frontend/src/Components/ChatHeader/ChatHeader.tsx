@@ -2,24 +2,24 @@ import { XIcon } from "lucide-react";
 import { useSocketStore } from "../../store/useSocketStore";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
 
 function ChatHeader() {
   const { t } = useTranslation();
   const { selectedUser, setSelectedUser, onlineUsers } = useSocketStore();
   const isOnline = selectedUser ? onlineUsers.includes(selectedUser._id) : false;
 
-  
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setSelectedUser(null);
     };
-    
+
     window.addEventListener("keydown", handleEscKey);
-    
+
     // cleanup function
     return () => window.removeEventListener("keydown", handleEscKey);
   }, [setSelectedUser]);
-  
+
   if (!selectedUser) return null;
   return (
     <div
@@ -27,13 +27,13 @@ function ChatHeader() {
    border-base-content/5 max-h-[84px] px-6 py-4 flex-none z-10"
     >
       <div className="flex items-center space-x-4">
-        <div className={`avatar ${isOnline ? "online" : "offline"} relative`}>
-          <div className="w-14 rounded-full ring-2 ring-base-200 ring-offset-2 ring-offset-base-100 transition-all">
-            <img
-              src={selectedUser.profilePic || "/avatar.png"}
-              alt={selectedUser.fullName}
-            />
-          </div>
+        <div className={`relative ${isOnline ? "online" : "offline"}`}>
+          <ProfileAvatar
+            profilePic={selectedUser.profilePic}
+            profilePicType={selectedUser.profilePicType}
+            className="w-14 h-14 ring-2 ring-base-200 ring-offset-2 ring-offset-base-100 transition-all"
+            fullName={selectedUser.fullName}
+          />
           {isOnline && (
             <span className="absolute bottom-0 right-0 size-3.5 bg-success rounded-full border-2 border-base-100 animate-pulse"></span>
           )}

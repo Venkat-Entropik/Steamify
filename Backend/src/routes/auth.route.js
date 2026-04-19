@@ -4,6 +4,7 @@ import {
   logout,
   onboard,
   signup,
+  updateProfile,
 } from "../controllers/auth.controller.js";
 import { protectedRoute } from "../middleware/auth.middleware.js";
 
@@ -16,6 +17,8 @@ router.post("/logout", logout);
 router.post("/login", login);
 
 router.post("/onboarding", protectedRoute, onboard);
+
+router.put("/update-profile", protectedRoute, updateProfile);
 
 router.get("/me", protectedRoute, (req, res) => {
   res.status(200).json({ success: true, user: req.user });

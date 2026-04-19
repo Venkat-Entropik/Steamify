@@ -26,6 +26,10 @@ class authServices {
   onBoarding(payload: onBoardingType) {
     return apiInstance.post(Constants.ONBOARDING, payload);
   }
+
+  updateProfile(payload: { profilePic: string; profilePicType?: "image" | "avatar" }) {
+    return apiInstance.put(Constants.UPDATE_PROFILE, payload);
+  }
 }
 
 export default new authServices();

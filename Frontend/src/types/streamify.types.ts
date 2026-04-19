@@ -34,6 +34,7 @@ export type UserType = {
   email: string;
   bio: string;
   profilePic: string;
+  profilePicType?: "image" | "avatar";
   nativeLanguage: string;
   learningLanguage: string;
   location: string;
@@ -41,21 +42,22 @@ export type UserType = {
   friends: string[];
   createdAt: string;
   updatedAt: string;
+  lastProfilePicUpdate?: string;
   __v: number;
 };
 
 export type friendType = Pick<
   UserType,
-  "_id" | "fullName" | "learningLanguage" | "nativeLanguage" | "profilePic"
+  "_id" | "fullName" | "learningLanguage" | "nativeLanguage" | "profilePic" | "profilePicType"
 >;
 
 export type requestStatus = "pending" | "accepted";
 
-export type recipientType = Pick<UserType, "_id" | "fullName" | "profilePic">;
+export type recipientType = Pick<UserType, "_id" | "fullName" | "profilePic" | "profilePicType">;
 
 export type senderTypes = Pick<
   UserType,
-  "_id" | "profilePic" | "fullName" | "nativeLanguage" | "learningLanguage"
+  "_id" | "profilePic" | "profilePicType" | "fullName" | "nativeLanguage" | "learningLanguage"
 >;
 
 export interface acceptedReqsType {
