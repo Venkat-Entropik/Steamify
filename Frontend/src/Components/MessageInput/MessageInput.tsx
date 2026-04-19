@@ -46,7 +46,7 @@ function MessageInput() {
   };
 
   return (
-    <div className="p-4 border-t border-slate-700/50">
+    <div data-testid="message-input" className="p-4 border-t border-slate-700/50">
       {imagePreview && (
         <div className="max-w-3xl mx-auto mb-3 flex items-center">
           <div className="relative">
@@ -57,6 +57,7 @@ function MessageInput() {
             />
             <button
               onClick={removeImage}
+              aria-label="remove-image"
               className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-slate-200 hover:bg-slate-700"
               type="button"
             >
@@ -66,7 +67,11 @@ function MessageInput() {
         </div>
       )}
 
-      <form onSubmit={handleSendMessage} className="max-w-3xl mx-auto flex space-x-4">
+      <form 
+        aria-label="submit-form"
+        onSubmit={handleSendMessage} 
+        className="max-w-3xl mx-auto flex space-x-4"
+      >
         <input
           type="text"
           value={text}
@@ -80,6 +85,7 @@ function MessageInput() {
         <input
           type="file"
           accept="image/*"
+          placeholder="upload"
           ref={fileInputRef}
           onChange={handleImageChange}
           className="hidden"
@@ -95,6 +101,7 @@ function MessageInput() {
           <ImageIcon className="w-5 h-5" />
         </button>
         <button
+          data-testid="send-btn"
           type="submit"
           disabled={!text.trim() && !imagePreview}
           className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"

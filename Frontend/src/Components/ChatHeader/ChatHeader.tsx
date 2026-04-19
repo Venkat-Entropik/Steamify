@@ -21,31 +21,40 @@ function ChatHeader() {
   if (!selectedUser) return null;
   return (
     <div
-      className="flex justify-between items-center bg-slate-800/50 border-b
-   border-slate-700/50 max-h-[84px] px-6 flex-1"
+      className="flex justify-between items-center bg-base-100/30 backdrop-blur-sm border-b
+   border-base-content/5 max-h-[84px] px-6 py-4 flex-none z-10"
     >
-      <div className="flex items-center space-x-3">
-        <div className={`avatar ${isOnline ? "online" : "offline"}`}>
-          <div className="w-12 rounded-full">
+      <div className="flex items-center space-x-4">
+        <div className={`avatar ${isOnline ? "online" : "offline"} relative`}>
+          <div className="w-14 rounded-full ring-2 ring-base-200 ring-offset-2 ring-offset-base-100 transition-all">
             <img
               src={selectedUser.profilePic || "/avatar.png"}
               alt={selectedUser.fullName}
             />
           </div>
+          {isOnline && (
+            <span className="absolute bottom-0 right-0 size-3.5 bg-success rounded-full border-2 border-base-100 animate-pulse"></span>
+          )}
         </div>
 
         <div>
-          <h3 className="text-slate-200 font-medium">
+          <h3 className="text-base-content font-bold text-lg tracking-tight">
             {selectedUser.fullName}
           </h3>
-          <p className="text-slate-400 text-sm">
-            {isOnline ? "Online" : "Offline"}
-          </p>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <span className={`size-2 rounded-full ${isOnline ? "bg-success" : "bg-base-content/30"}`}></span>
+            <p className="text-base-content/50 text-xs font-bold uppercase tracking-wider">
+              {isOnline ? "Online Now" : "Currently Offline"}
+            </p>
+          </div>
         </div>
       </div>
 
-      <button onClick={() => setSelectedUser(null)}>
-        <XIcon className="w-5 h-5 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer" />
+      <button 
+        onClick={() => setSelectedUser(null)}
+        className="btn btn-ghost btn-circle hover:bg-error/10 hover:text-error transition-all"
+      >
+        <XIcon className="size-6 opacity-40 hover:opacity-100" />
       </button>
     </div>
   );

@@ -12,6 +12,8 @@ const NotificationPage = lazy(
 );
 const ChatPage = lazy(() => import("./pages/ChatPage/ChatPage"));
 const CallPage = lazy(() => import("./pages/CallPage/CallPage"));
+const FriendsPage = lazy(() => import("./pages/FriendsPage/FriendsPage"));
+const WelcomePage = lazy(() => import("./pages/WelcomePage/WelcomePage"));
 
 export const routes = [
   {
@@ -62,6 +64,20 @@ export const routes = [
       element: OnboardingPage,
     },
     name: "Onboarding",
+  },
+  {
+    routeProps: {
+      path: "/welcome",
+      element: WelcomePage,
+    },
+    name: "Welcome",
+  },
+  {
+    routeProps: {
+      path: "/friends",
+      element: FriendsPage,
+    },
+    name: "Friends",
   },
   {
     routeProps: {
