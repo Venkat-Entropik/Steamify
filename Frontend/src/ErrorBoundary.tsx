@@ -1,6 +1,7 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { AlertCircle, RefreshCcw, Home } from "lucide-react";
+import { withTranslation, type WithTranslation } from "react-i18next";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -10,8 +11,8 @@ interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends Component<ErrorBoundaryProps & WithTranslation, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps & WithTranslation) {
     super(props);
     this.state = { hasError: false };
   }
@@ -33,6 +34,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   };
 
   render() {
+    const { t } = this.props;
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-base-100 px-4">
@@ -46,11 +48,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
             <div className="space-y-4">
               <h1 className="text-4xl font-black tracking-tight text-base-content sm:text-5xl">
-                Something went wrong
+                {t('errors.boundaryTitle')}
               </h1>
               <p className="text-lg text-base-content/70">
-                An unexpected error occurred. Don't worry, we've logged the
-                issue and our team is looking into it.
+                {t('errors.boundaryDesc')}
               </p>
             </div>
 
@@ -60,14 +61,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 className="btn btn-error btn-lg gap-2 w-full sm:w-auto hover:scale-105 transition-transform shadow-lg shadow-error/20"
               >
                 <RefreshCcw className="w-5 h-5" />
-                Refresh Page
+                {t('errors.refreshPage')}
               </button>
               <button
                 onClick={this.handleGoHome}
                 className="btn btn-ghost btn-lg gap-2 w-full sm:w-auto hover:bg-base-200 transition-colors"
               >
                 <Home className="w-5 h-5" />
-                Back to Home
+                {t('errors.backToHome')}
               </button>
             </div>
 
@@ -83,4 +84,4 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-export default ErrorBoundary;
+export default withTranslation()(ErrorBoundary);

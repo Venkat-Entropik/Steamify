@@ -1,12 +1,15 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../../hooks/useAuthUser";
 import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 
 interface SidebarProps {
   getRandomNumber?: number;
 }
 
 const Sidebar = ({ getRandomNumber }: SidebarProps) => {
+  const { t } = useTranslation();
   const { authData } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -17,7 +20,7 @@ const Sidebar = ({ getRandomNumber }: SidebarProps) => {
         <Link to="/" className="flex items-center gap-2.5">
           <ShipWheelIcon className="size-9 text-primary" />
           <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-            Streamify
+            {t('common.appName')}
           </span>
         </Link>
       </div>
@@ -29,7 +32,7 @@ const Sidebar = ({ getRandomNumber }: SidebarProps) => {
             }`}
         >
           <HomeIcon className="size-5 text-base-content opacity-70" />
-          <span>Home</span>
+          <span>{t('nav.home')}</span>
         </Link>
 
         <Link
@@ -38,7 +41,7 @@ const Sidebar = ({ getRandomNumber }: SidebarProps) => {
             }`}
         >
           <UsersIcon className="size-5 text-base-content opacity-70" />
-          <span>Friends</span>
+          <span>{t('nav.friends')}</span>
         </Link>
 
         <Link
@@ -47,22 +50,26 @@ const Sidebar = ({ getRandomNumber }: SidebarProps) => {
             }`}
         >
           <BellIcon className="size-5 text-base-content opacity-70" />
-          <span>Notifications</span>
+          <span>{t('nav.notifications')}</span>
         </Link>
       </nav>
 
-      <div className="p-4 border-t border-base-300 mt-auto">
+      <div className="px-4 py-2 border-t border-base-300">
+        <LanguageSwitcher />
+      </div>
+
+      <div className="p-4 border-t border-base-300">
         <div className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-10 rounded-full">
               <img src={authData?.data?.profilePic || `https://testingbot.com/free-online-tools/random-avatar/${getRandomNumber || 100}`} alt="User Avatar" />
             </div>
           </div>
-          <div className="flex-1">
-            <p className="font-semibold text-sm">{authData?.data?.fullName}</p>
+          <div className="flex-1 overflow-hidden">
+            <p className="font-semibold text-sm truncate">{authData?.data?.fullName}</p>
             <p className="text-xs text-success flex items-center gap-1">
               <span className="size-2 rounded-full bg-success inline-block" />
-              Online
+              {t('common.online')}
             </p>
           </div>
         </div>

@@ -21,8 +21,10 @@ import { LANGUAGES } from "../../utils/Static";
 import { useForm } from "react-hook-form";
 import authServices from "../../services/auth.services";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const OnboardingPage: FC = () => {
+  const { t } = useTranslation();
   const { authData } = useAuthUser();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -52,12 +54,12 @@ const OnboardingPage: FC = () => {
   const { mutate: onboardingMutation, isPending } = useMutation({
     mutationFn: authServices.onBoarding,
     onSuccess: () => {
-      toast.success("Profile onboarded successfully");
+      toast.success(t('onboarding.success'));
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
       navigate("/");
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || t('errors.generic'));
     },
   });
 
@@ -71,7 +73,7 @@ const OnboardingPage: FC = () => {
     });
     const stringifyConfig = JSON.stringify(config);
     setValue("profilePic", stringifyConfig);
-    toast.success("Random profile picture generated!");
+    toast.success(t('onboarding.avatarSuccess'));
   };
 
   const handleChangeGender = (): void => {
@@ -90,16 +92,15 @@ const OnboardingPage: FC = () => {
               <div className="flex items-center gap-3">
                 <ShipWheelIcon className="size-10 text-white" />
                 <span className="text-2xl font-black tracking-tighter">
-                  Streamify
+                  {t('common.appName')}
                 </span>
               </div>
               <div className="space-y-4">
                 <h1 className="text-4xl font-bold leading-tight">
-                  Welcome to the community!
+                  {t('onboarding.welcome')}
                 </h1>
                 <p className="text-primary-content/80">
-                  Let's set up your profile to help you find the perfect
-                  language partner.
+                  {t('onboarding.welcomeSubtitle')}
                 </p>
               </div>
             </div>
@@ -107,20 +108,20 @@ const OnboardingPage: FC = () => {
             <div className="space-y-6">
               <StepItem
                 number={1}
-                title="Identity"
-                description="Set your name and avatar"
+                title={t('onboarding.identity')}
+                description={t('onboarding.identityDesc')}
                 active
               />
               <StepItem
                 number={2}
-                title="Details"
-                description="Tell us about your languages"
+                title={t('onboarding.details')}
+                description={t('onboarding.detailsDesc')}
                 active
               />
               <StepItem
                 number={3}
-                title="Connect"
-                description="Find your first partner"
+                title={t('onboarding.connect')}
+                description={t('onboarding.connectDesc')}
               />
             </div>
           </div>
@@ -166,7 +167,7 @@ const OnboardingPage: FC = () => {
                   className="btn btn-outline btn-sm gap-2 hover:bg-primary hover:text-white transition-all rounded-full px-6"
                 >
                   <ShuffleIcon className="size-4" />
-                  Generate Random Avatar
+                  {t('onboarding.generateAvatar')}
                 </button>
               </div>
 
@@ -175,18 +176,18 @@ const OnboardingPage: FC = () => {
                 <div className="form-control">
                   <label className="label py-1">
                     <span className="label-text font-bold text-base-content/70 uppercase text-xs tracking-widest">
-                      Display Name
+                      {t('onboarding.displayName')}
                     </span>
                   </label>
                   <input
                     type="text"
                     {...register("fullName", {
-                      required: "Name is required",
-                      minLength: { value: 3, message: "Too short" },
-                      maxLength: { value: 20, message: "Too long" },
+                      required: t('errors.nameRequired'),
+                      minLength: { value: 3, message: t('errors.nameTooShort') },
+                      maxLength: { value: 20, message: t('errors.nameTooLong') },
                     })}
                     className="input input-bordered w-full h-14 bg-base-200 focus:bg-base-100 transition-all text-lg"
-                    placeholder="How should we call you?"
+                    placeholder={t('onboarding.displayNamePlaceholder')}
                   />
                   {errors.fullName && (
                     <p className="text-error text-xs mt-1">
@@ -199,19 +200,19 @@ const OnboardingPage: FC = () => {
                 <div className="form-control">
                   <label className="label py-1">
                     <span className="label-text font-bold text-base-content/70 uppercase text-xs tracking-widest">
-                      Bio
+                      {t('onboarding.bio')}
                     </span>
                   </label>
                   <textarea
                     {...register("bio", {
-                      required: "Bio is required",
+                      required: t('errors.bioRequired'),
                       maxLength: {
                         value: 250,
-                        message: "Bio must be 250 characters or fewer",
+                        message: t('errors.bioTooLong'),
                       },
                     })}
                     className="textarea textarea-bordered h-28 bg-base-200 focus:bg-base-100 transition-all text-lg p-4"
-                    placeholder="Tell us about your learning goals..."
+                    placeholder={t('onboarding.bioPlaceholder')}
                   />
                   {errors.bio && (
                     <p className="text-error text-xs mt-1">
@@ -225,18 +226,18 @@ const OnboardingPage: FC = () => {
                   <div className="form-control">
                     <label className="label py-1">
                       <span className="label-text font-bold text-base-content/70 uppercase text-xs tracking-widest">
-                        Native
+                        {t('onboarding.native')}
                       </span>
                     </label>
                     <div className="relative">
                       <Languages className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30" />
                       <select
                         {...register("nativeLanguage", {
-                          required: "Required",
+                          required: t('errors.required'),
                         })}
                         className="select select-bordered w-full pl-12 h-14 bg-base-200"
                       >
-                        <option value="">Select Native</option>
+                        <option value="">{t('onboarding.selectNative')}</option>
                         {LANGUAGES.map((lang) => (
                           <option
                             key={`native-${lang}`}
@@ -252,18 +253,18 @@ const OnboardingPage: FC = () => {
                   <div className="form-control">
                     <label className="label py-1">
                       <span className="label-text font-bold text-base-content/70 uppercase text-xs tracking-widest">
-                        Learning
+                        {t('onboarding.learning')}
                       </span>
                     </label>
                     <div className="relative">
                       <Languages className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30" />
                       <select
                         {...register("learningLanguage", {
-                          required: "Required",
+                          required: t('errors.required'),
                         })}
                         className="select select-bordered w-full pl-12 h-14 bg-base-200"
                       >
-                        <option value="">Select Learning</option>
+                        <option value="">{t('onboarding.selectLearning')}</option>
                         {LANGUAGES.map((lang) => (
                           <option
                             key={`learning-${lang}`}
@@ -281,7 +282,7 @@ const OnboardingPage: FC = () => {
                 <div className="form-control">
                   <label className="label py-1">
                     <span className="label-text font-bold text-base-content/70 uppercase text-xs tracking-widest">
-                      Location
+                      {t('onboarding.location')}
                     </span>
                   </label>
                   <div className="relative">
@@ -289,10 +290,10 @@ const OnboardingPage: FC = () => {
                     <input
                       type="text"
                       {...register("location", {
-                        required: "Location is required",
+                        required: t('errors.locationRequired'),
                       })}
                       className="input input-bordered w-full pl-12 h-14 bg-base-200"
-                      placeholder="City, Country"
+                      placeholder={t('onboarding.locationPlaceholder')}
                     />
                   </div>
                 </div>
@@ -301,8 +302,7 @@ const OnboardingPage: FC = () => {
               <div className="alert bg-primary/5 border-none rounded-2xl flex items-start gap-4">
                 <Info className="size-5 text-primary mt-1" />
                 <p className="text-sm text-base-content/70">
-                  Your profile will be visible to other learners to help you
-                  connect for practice sessions.
+                  {t('onboarding.profileVisibility')}
                 </p>
               </div>
 
@@ -315,7 +315,7 @@ const OnboardingPage: FC = () => {
                   <LoaderIcon className="animate-spin size-6" />
                 ) : (
                   <>
-                    Complete Your Profile
+                    {t('onboarding.completeProfile')}
                     <ArrowRight className="size-6 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}

@@ -1,8 +1,10 @@
 import { XIcon } from "lucide-react";
 import { useSocketStore } from "../../store/useSocketStore";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function ChatHeader() {
+  const { t } = useTranslation();
   const { selectedUser, setSelectedUser, onlineUsers } = useSocketStore();
   const isOnline = selectedUser ? onlineUsers.includes(selectedUser._id) : false;
 
@@ -44,7 +46,7 @@ function ChatHeader() {
           <div className="flex items-center gap-1.5 mt-0.5">
             <span className={`size-2 rounded-full ${isOnline ? "bg-success" : "bg-base-content/30"}`}></span>
             <p className="text-base-content/50 text-xs font-bold uppercase tracking-wider">
-              {isOnline ? "Online Now" : "Currently Offline"}
+              {isOnline ? t('common.online') : t('common.offline')}
             </p>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import {
   BellIcon,
   MessageSquareIcon,
@@ -13,6 +14,7 @@ import type { acceptedReqsType, inComingReqsType } from "../../types/streamify.t
 import { getLanguageFlag } from "../../Components/FriendCard/FriendCard";
 
 const NotificationsPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const { data: friendRequests, isLoading } = useQuery({
@@ -44,15 +46,15 @@ const NotificationsPage = () => {
             <BellIcon className="size-8" />
           </div>
           <div>
-            <h1 className="text-4xl font-black tracking-tight">Notifications</h1>
-            <p className="text-base-content/60">Manage your connections and new requests.</p>
+            <h1 className="text-4xl font-black tracking-tight">{t('notifications.title')}</h1>
+            <p className="text-base-content/60">{t('notifications.subtitle')}</p>
           </div>
         </div>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <span className="loading loading-spinner loading-lg text-primary"></span>
-            <p className="text-base-content/40 font-medium animate-pulse">Syncing your updates...</p>
+            <p className="text-base-content/40 font-medium animate-pulse">{t('notifications.syncing')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -63,7 +65,7 @@ const NotificationsPage = () => {
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold flex items-center gap-3">
                     <UserCheckIcon className="size-6 text-primary" />
-                    Pending Requests
+                    {t('notifications.pendingRequests')}
                     <span className="badge badge-primary badge-md ml-1 font-bold">
                       {incomingRequests.length}
                     </span>
@@ -108,7 +110,7 @@ const NotificationsPage = () => {
                                   onClick={() => acceptRequestMutation(request._id)}
                                   disabled={isPending}
                                 >
-                                  {isPending ? <span className="loading loading-spinner"></span> : "Accept"}
+                                  {isPending ? <span className="loading loading-spinner"></span> : t('notifications.accept')}
                                   <ArrowRight className="size-4" />
                                 </button>
                                 <button className="btn btn-ghost btn-square rounded-2xl h-12 w-12 border border-base-200">
@@ -123,7 +125,7 @@ const NotificationsPage = () => {
                   </div>
                 ) : (
                    <div className="card bg-base-200/50 border-2 border-dashed border-base-300 p-12 text-center rounded-[2.5rem]">
-                      <p className="text-base-content/40 font-medium">No pending friend requests.</p>
+                      <p className="text-base-content/40 font-medium">{t('notifications.noPending')}</p>
                    </div>
                 )}
               </section>
@@ -134,7 +136,7 @@ const NotificationsPage = () => {
               <section className="space-y-6">
                 <h2 className="text-2xl font-bold flex items-center gap-3">
                   <Sparkles className="size-6 text-success" />
-                  Recent Matches
+                  {t('notifications.recentMatches')}
                 </h2>
 
                 {acceptedRequests.length > 0 ? (
@@ -154,11 +156,11 @@ const NotificationsPage = () => {
                                 {notification.recipient.fullName}
                               </h3>
                               <p className="text-sm text-base-content/60 leading-snug">
-                                accepted your request. Start chatting!
+                                {t('notifications.acceptedYourRequest')}
                               </p>
                               <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-success mt-2 bg-success/10 w-fit px-2 py-0.5 rounded-full">
                                 <MessageSquareIcon className="size-3" />
-                                Connected
+                                {t('notifications.connected')}
                               </div>
                             </div>
                           </div>
@@ -168,7 +170,7 @@ const NotificationsPage = () => {
                   </div>
                 ) : (
                   <div className="card bg-base-200/30 p-8 text-center rounded-[2.5rem] border border-base-200">
-                     <p className="text-sm text-base-content/40 italic">No recent matches found.</p>
+                     <p className="text-sm text-base-content/40 italic">{t('notifications.noRecentMatches')}</p>
                   </div>
                 )}
               </section>

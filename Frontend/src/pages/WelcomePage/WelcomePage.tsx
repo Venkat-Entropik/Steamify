@@ -1,5 +1,6 @@
 import { type FC, useEffect } from "react";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import {
   ShipWheelIcon,
   Globe,
@@ -12,8 +13,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import welcomeHero from "../../assets/generated/welcome_hero.png";
+import LanguageSwitcher from "../../Components/LanguageSwitcher/LanguageSwitcher";
 
 const WelcomePage: FC = () => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -39,25 +43,26 @@ const WelcomePage: FC = () => {
   return (
     <div className="min-h-screen bg-base-100 flex flex-col overflow-x-hidden">
       {/* NAVBAR */}
-      <nav className="container mx-auto px-6 py-6 flex justify-between items-center relative z-10">
+      <nav className="container mx-auto px-6 py-6 flex justify-between items-center relative z-50">
         <div className="flex items-center gap-2.5">
           <ShipWheelIcon className="size-10 text-primary animate-spin-slow" />
           <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-            Streamify
+            {t('common.appName')}
           </span>
         </div>
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           <Link
             to="/login"
-            className="btn btn-ghost hidden sm:flex hover:bg-primary/10"
+            className="btn btn-ghost hidden sm:flex hover:bg-primary/10 rounded-xl"
           >
-            Log In
+            {t('common.login')}
           </Link>
           <Link
             to="/signup"
-            className="btn btn-primary px-8 shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
+            className="btn btn-primary px-8 shadow-lg shadow-primary/20 hover:scale-105 transition-transform rounded-xl"
           >
-            Join Now
+            {t('common.signup')}
           </Link>
         </div>
       </nav>
@@ -71,25 +76,23 @@ const WelcomePage: FC = () => {
         <div className="flex-1 space-y-8 text-center lg:text-left animate-in slide-in-from-left duration-1000">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 mb-4">
             <Zap className="size-4" />
-            <span>New: AI-Powered Language Exchange</span>
+            <span>{t('welcome.newFeature')}</span>
           </div>
           <h1 className="text-5xl lg:text-7xl font-black leading-tight tracking-tight">
-            Master Any Language <br />
+            {t('welcome.heroTitle').split(' ').slice(0, 4).join(' ')} <br />
             <span className="text-primary italic">
-              Through Real Connection.
+              {t('welcome.heroTitle').split(' ').slice(4).join(' ')}
             </span>
           </h1>
           <p className="text-xl text-base-content/70 max-w-2xl leading-relaxed">
-            Steamify connects you with native speakers worldwide for immersive
-            conversations. Practice, learn, and make friends in a vibrant
-            community designed for fluent outcomes.
+            {t('welcome.heroSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
             <Link
               to="/signup"
-              className="btn btn-primary btn-lg px-10 gap-2 h-16 text-lg group"
+              className="btn btn-primary btn-lg px-10 gap-2 h-16 text-lg group rounded-2xl"
             >
-              Start Your Journey
+              {t('welcome.getStarted')}
               <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <div className="flex -space-x-3 items-center">
@@ -105,8 +108,7 @@ const WelcomePage: FC = () => {
                 </div>
               ))}
               <p className="ml-4 text-sm font-medium text-base-content/60">
-                Joined by <span className="text-primary font-bold">2,000+</span>{" "}
-                learners this week
+                {t('welcome.joinedBy')}
               </p>
             </div>
           </div>
@@ -130,11 +132,10 @@ const WelcomePage: FC = () => {
         <div className="container mx-auto px-6">
           <div className="text-center space-y-4 mb-20 reveal-up">
             <h2 className="text-4xl lg:text-6xl font-bold">
-              Everything you need to be fluent
+              {t('welcome.featuresTitle')}
             </h2>
             <p className="text-base-content/60 max-w-xl mx-auto text-lg">
-              Our platform combines cutting-edge tech with human connection to
-              accelerate your learning journey.
+              {t('welcome.featuresSubtitle')}
             </p>
           </div>
 
@@ -142,26 +143,26 @@ const WelcomePage: FC = () => {
             <FeatureCard
               className="reveal-up [transition-delay:100ms]"
               icon={<Globe className="size-10 text-primary" />}
-              title="Global Community"
-              description="Connect with native speakers from over 150 countries and diverse backgrounds."
+              title={t('welcome.feature1Title')}
+              description={t('welcome.feature1Desc')}
             />
             <FeatureCard
               className="reveal-up [transition-delay:200ms]"
               icon={<MessageSquare className="size-10 text-secondary" />}
-              title="Real-time Chat"
-              description="Smart messaging with built-in translation, transliteration and corrections."
+              title={t('welcome.feature2Title')}
+              description={t('welcome.feature2Desc')}
             />
             <FeatureCard
               className="reveal-up [transition-delay:300ms]"
               icon={<Video className="size-10 text-accent" />}
-              title="Video Calls"
-              description="Crystal-clear face-to-face practice sessions with native speakers anytime."
+              title={t('welcome.feature3Title')}
+              description={t('welcome.feature3Desc')}
             />
             <FeatureCard
               className="reveal-up [transition-delay:400ms]"
               icon={<Users className="size-10 text-success" />}
-              title="Study Groups"
-              description="Join themed rooms and learn together with peers who share your interests."
+              title={t('welcome.feature4Title')}
+              description={t('welcome.feature4Desc')}
             />
           </div>
         </div>
@@ -174,27 +175,26 @@ const WelcomePage: FC = () => {
           <div className="max-w-4xl mx-auto space-y-10 reveal-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 text-secondary font-bold text-sm uppercase tracking-widest">
               <Sparkles className="size-4" />
-              Limited Time Offer
+              {t('welcome.limitedOffer')}
             </div>
             <h2 className="text-5xl lg:text-7xl font-black">
-              Ready to speak like a local?
+              {t('welcome.ctaTitle')}
             </h2>
             <p className="text-xl text-base-content/70">
-              Join thousands of language enthusiasts who have already
-              transformed their speaking skills with Streamify.
+              {t('welcome.ctaSubtitle')}
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
               <Link
                 to="/signup"
-                className="btn btn-primary btn-lg px-12 h-16 text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform"
+                className="btn btn-primary btn-lg px-12 h-16 text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform rounded-2xl"
               >
-                Get Started for Free
+                {t('welcome.getStarted')}
               </Link>
               <Link
                 to="/login"
-                className="btn btn-outline btn-lg px-12 h-16 text-lg"
+                className="btn btn-outline btn-lg px-12 h-16 text-lg rounded-2xl"
               >
-                View Pricing
+                {t('welcome.learnMore')}
               </Link>
             </div>
           </div>
@@ -206,23 +206,21 @@ const WelcomePage: FC = () => {
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
             <ShipWheelIcon className="size-6 text-primary/50" />
-            <span className="font-bold opacity-50">Streamify © 2026</span>
+            <span className="font-bold opacity-50">{t('common.appName')} © 2026</span>
           </div>
           <div className="flex gap-8 text-sm opacity-60">
             <a href="#" className="hover:text-primary transition-colors">
-              Privacy Policy
+              {t('footer.privacy')}
             </a>
             <a href="#" className="hover:text-primary transition-colors">
-              Terms of Service
+              {t('footer.terms')}
             </a>
             <a href="#" className="hover:text-primary transition-colors">
-              Contact Us
+              {t('footer.contact')}
             </a>
           </div>
           <div className="flex gap-4">
-            <div className="size-8 rounded-lg bg-base-300 flex items-center justify-center hover:bg-primary/20 transition-colors cursor-pointer">
-              <Languages className="size-4" />
-            </div>
+            <LanguageSwitcher />
           </div>
         </div>
       </footer>

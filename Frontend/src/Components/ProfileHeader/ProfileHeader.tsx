@@ -4,8 +4,10 @@ import useAuthUser from "../../hooks/useAuthUser";
 import type { UserType } from "../../types/streamify.types";
 import { useSocketStore } from "../../store/useSocketStore";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 function ProfileHeader() {
+  const { t } = useTranslation();
   const { unSubscribeFromMessages, setSelectedUser } = useSocketStore();
   const { authData } = useAuthUser();
   const authUser: UserType = authData?.data;
@@ -50,7 +52,7 @@ function ProfileHeader() {
                 className="size-full object-cover"
               />
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                <span className="text-white text-xs">Change</span>
+                <span className="text-white text-xs">{t('common.change')}</span>
               </div>
             </button>
 
@@ -69,7 +71,7 @@ function ProfileHeader() {
               {authUser.fullName}
             </h3>
 
-            <p className="text-slate-400 text-xs">Online</p>
+            <p className="text-slate-400 text-xs">{t('common.online')}</p>
           </div>
         </div>
 

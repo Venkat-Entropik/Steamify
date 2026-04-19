@@ -1,5 +1,6 @@
 import { ShipWheelIcon, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import authIllustration from "../../assets/generated/auth_illustration.png";
 import { useForm } from "react-hook-form";
 import type { signUpPayloadType } from "../../types/streamify.types";
@@ -8,8 +9,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import authServices from "../../services/auth.services";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import LanguageSwitcher from "../../Components/LanguageSwitcher/LanguageSwitcher";
 
 const SignUpPage = () => {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -24,7 +27,7 @@ const SignUpPage = () => {
     mutationFn: authServices.signUp,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
     onError: (error: AxiosError<{ message: string }>) => {
-      toast.error(error?.response?.data?.message || "Signup failed.");
+      toast.error(error?.response?.data?.message || t('errors.signupFailed'));
     },
   });
 
@@ -34,6 +37,11 @@ const SignUpPage = () => {
 
   return (
     <div data-testid="signup" className="min-h-screen bg-base-100 flex items-center justify-center p-4 overflow-hidden relative">
+      {/* Language Switcher - Floating */}
+      <div className="fixed top-8 right-8 z-50">
+        <LanguageSwitcher />
+      </div>
+
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-secondary/5 blur-[120px] rounded-full -ml-64 -mt-64"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -mr-64 -mb-64"></div>
@@ -45,13 +53,13 @@ const SignUpPage = () => {
           <div className="mb-10 flex items-center gap-3">
             <ShipWheelIcon className="size-10 text-primary" />
             <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-              Streamify
+              {t('common.appName')}
             </span>
           </div>
 
           <div className="space-y-2 mb-8">
-            <h1 className="text-4xl font-bold tracking-tight">Create Account</h1>
-            <p className="text-base-content/60">Join thousands of learners mastering languages together.</p>
+            <h1 className="text-4xl font-bold tracking-tight">{t('auth.createAccount')}</h1>
+            <p className="text-base-content/60">{t('auth.joinCommunity')}</p>
           </div>
 
           <form onSubmit={handleSubmit(handleSignup)} className="space-y-5">
@@ -59,7 +67,7 @@ const SignUpPage = () => {
               {/* FULL NAME */}
               <div className="form-control">
                 <label className="label py-1">
-                  <span className="label-text font-medium">Full Name</span>
+                  <span className="label-text font-medium">{t('auth.fullName')}</span>
                 </label>
                 <div className="relative group">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30 group-focus-within:text-primary transition-colors" />
@@ -68,9 +76,9 @@ const SignUpPage = () => {
                     placeholder="John Doe"
                     className={`input input-bordered w-full pl-12 h-14 bg-base-200 focus:bg-base-100 transition-all ${errors.fullName ? 'input-error' : ''}`}
                     {...register("fullName", {
-                      required: "Name is required",
-                      minLength: { value: 3, message: "Too short" },
-                      maxLength: { value: 20, message: "Too long" },
+                      required: t('errors.nameRequired'),
+                      minLength: { value: 3, message: t('errors.nameTooShort') },
+                      maxLength: { value: 20, message: t('errors.nameTooLong') },
                     })}
                   />
                 </div>
@@ -80,7 +88,7 @@ const SignUpPage = () => {
               {/* EMAIL */}
               <div className="form-control">
                 <label className="label py-1">
-                  <span className="label-text font-medium">Email Address</span>
+                  <span className="label-text font-medium">{t('auth.email')}</span>
                 </label>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30 group-focus-within:text-primary transition-colors" />
@@ -89,10 +97,10 @@ const SignUpPage = () => {
                     placeholder="Enter email"
                     className={`input input-bordered w-full pl-12 h-14 bg-base-200 focus:bg-base-100 transition-all ${errors.email ? 'input-error' : ''}`}
                     {...register("email", {
-                      required: "Email is required",
+                      required: t('errors.emailRequired'),
                       pattern: {
                         value: emailRegexPattern,
-                        message: "Enter a valid email address",
+                        message: t('errors.invalidEmail'),
                       },
                     })}
                   />
@@ -103,7 +111,7 @@ const SignUpPage = () => {
               {/* PASSWORD */}
               <div className="form-control">
                 <label className="label py-1">
-                  <span className="label-text font-medium">Password</span>
+                  <span className="label-text font-medium">{t('auth.password')}</span>
                 </label>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30 group-focus-within:text-primary transition-colors" />
@@ -112,8 +120,8 @@ const SignUpPage = () => {
                     placeholder="Enter password"
                     className={`input input-bordered w-full pl-12 h-14 bg-base-200 focus:bg-base-100 transition-all ${errors.password ? 'input-error' : ''}`}
                     {...register("password", {
-                      required: "Password is required",
-                      minLength: { value: 6, message: "At least 6 characters" },
+                      required: t('errors.passwordRequired'),
+                      minLength: { value: 6, message: t('errors.passwordTooShort') },
                     })}
                   />
                 </div>
@@ -130,30 +138,33 @@ const SignUpPage = () => {
                   required 
                 />
                 <span className="text-sm text-base-content/60">
-                  I agree to the <span className="text-primary font-bold">Terms</span> and <span className="text-primary font-bold">Privacy Policy</span>
+                  {t('auth.termsAgree')}{" "}
+                  <span className="text-primary font-bold">{t('auth.terms')}</span>{" "}
+                  {t('auth.and')}{" "}
+                  <span className="text-primary font-bold">{t('auth.privacy')}</span>
                 </span>
               </label>
             </div>
 
             <button
               type="submit"
-              className="btn btn-primary w-full h-14 text-lg shadow-lg shadow-primary/20 gap-2 group mt-4"
+              className="btn btn-primary w-full h-14 text-lg shadow-lg shadow-primary/20 gap-2 group mt-4 rounded-xl"
               disabled={isLoading || isPending || isSubmitting || !isValid}
             >
               {isPending ? (
                 <span className="loading loading-spinner"></span>
               ) : (
                 <>
-                  Create Account
+                  {t('auth.createAccount')}
                   <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
             </button>
 
             <p className="text-center text-base-content/60 pt-6">
-              Already have an account?{" "}
+              {t('auth.alreadyHaveAccount')}{" "}
               <Link to="/login" className="text-primary font-bold hover:underline transition-all">
-                Sign in
+                {t('auth.signIn')}
               </Link>
             </p>
           </form>
@@ -174,8 +185,8 @@ const SignUpPage = () => {
           </div>
 
           <div className="text-center mt-12 space-y-4 max-w-xs relative z-10">
-            <h2 className="text-2xl font-bold">Connect & Learn Globally.</h2>
-            <p className="text-base-content/60">"Language is the road map of a culture. It tells you where its people come from and where they are going."</p>
+            <h2 className="text-2xl font-bold">{t('auth.signupHeroTitle')}</h2>
+            <p className="text-base-content/60">{t('auth.signupHeroQuote')}</p>
           </div>
         </div>
       </div>

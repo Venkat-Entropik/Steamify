@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import usersServices from "../../services/users.services";
 import { Link } from "react-router";
 import {
@@ -21,6 +22,7 @@ import NoFriendsFound from "../../Components/NoFriendsFound/NoFriendsFound";
 import type { UserType } from "../../types/streamify.types";
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const { data: friends, isLoading: loadingFriends } = useQuery({
@@ -65,12 +67,12 @@ const HomePage = () => {
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
             <div className="space-y-2">
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight">Your Connections</h1>
-              <p className="text-base-content/60 text-lg">Practice with your language partners and make progress together.</p>
+              <h1 className="text-4xl md:text-5xl font-black tracking-tight">{t('home.yourConnections')}</h1>
+              <p className="text-base-content/60 text-lg">{t('home.connectionsSubtitle')}</p>
             </div>
             <Link to="/notifications" className="btn btn-primary btn-md gap-2 rounded-2xl shadow-lg shadow-primary/20">
               <UsersIcon className="size-5" />
-              Notifications
+              {t('home.notifications')}
             </Link>
           </div>
 
@@ -100,8 +102,8 @@ const HomePage = () => {
               <Sparkles className="size-8 text-secondary" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold tracking-tight">Meet New Learners</h2>
-              <p className="text-base-content/60">AI-powered recommendations based on your goals.</p>
+              <h2 className="text-3xl font-bold tracking-tight">{t('home.meetNewLearners')}</h2>
+              <p className="text-base-content/60">{t('home.recommendationsSubtitle')}</p>
             </div>
           </div>
           
@@ -109,7 +111,7 @@ const HomePage = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30" />
             <input 
               type="text" 
-              placeholder="Search by language..." 
+              placeholder={t('home.searchPlaceholder')}
               className="input input-bordered w-full pl-12 rounded-2xl bg-base-200/50 border-base-300 focus:bg-base-100 transition-all"
             />
           </div>
@@ -121,9 +123,9 @@ const HomePage = () => {
           </div>
         ) : recommendationsList?.length === 0 ? (
           <div className="card bg-base-200/50 border-2 border-dashed border-base-300 p-12 text-center rounded-[2rem]">
-            <h3 className="font-bold text-xl mb-2">Expanding the community...</h3>
+            <h3 className="font-bold text-xl mb-2">{t('home.expandingCommunity')}</h3>
             <p className="text-base-content/60 max-w-xs mx-auto">
-              We're finding more partners for you. Check back soon for fresh recommendations!
+              {t('home.expandingSubtitle')}
             </p>
           </div>
         ) : (
@@ -156,7 +158,7 @@ const HomePage = () => {
                             )}
                           </div>
                         </div>
-                        <div className="badge badge-secondary badge-outline font-bold">New</div>
+                        <div className="badge badge-secondary badge-outline font-bold">{t('home.newBadge')}</div>
                       </div>
 
                       <div className="flex flex-wrap gap-2">
@@ -188,12 +190,12 @@ const HomePage = () => {
                         {hasRequestBeenSent ? (
                           <>
                             <CheckCircleIcon className="size-6" />
-                            Connected!
+                            {t('home.connected')}
                           </>
                         ) : (
                           <>
                             <UserPlusIcon className="size-5" />
-                            Connect Now
+                            {t('home.connectNow')}
                             <ArrowRight className="size-5 group-hover/btn:translate-x-1 transition-transform" />
                           </>
                         )}

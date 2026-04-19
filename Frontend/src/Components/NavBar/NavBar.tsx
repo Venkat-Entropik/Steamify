@@ -3,6 +3,8 @@ import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import authServices from "../../services/auth.services";
 import ThemeSelector from "../ThemeSelector/ThemeSelector";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import { useTranslation } from "react-i18next";
 import type { FC } from "react";
 
 interface NavbarProps {
@@ -10,6 +12,7 @@ interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
 
@@ -29,7 +32,7 @@ const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
               <Link to="/" className="flex items-center gap-2.5">
                 <ShipWheelIcon className="size-9 text-primary" />
                 <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-                  Streamify
+                  {t('common.appName')}
                 </span>
               </Link>
             </div>
@@ -43,14 +46,14 @@ const Navbar: FC<NavbarProps> = ({ randomNumber }) => {
             </Link>
           </div>
 
-          {/* TODO */}
+          <LanguageSelector />
           <ThemeSelector />
 
           <div className="avatar">
             <div className="w-9 rounded-full">
               <img
                 src={`https://testingbot.com/free-online-tools/random-avatar/${randomNumber}`}
-                alt="User Avatar"
+                alt={t('common.profile')}
                 rel="noreferrer"
               />
             </div>

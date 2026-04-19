@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 import {
   StreamVideo,
@@ -24,6 +25,7 @@ import chatServices from "../../services/chat.services";
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
 const CallPage = () => {
+  const { t } = useTranslation();
   const { id: callId } = useParams();
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
@@ -63,7 +65,7 @@ const CallPage = () => {
         setCall(callInstance);
       } catch (error) {
         console.error("Error joining call:", error);
-        toast.error("Could not join the call. Please try again.");
+        toast.error(t('call.joinError'));
       } finally {
         setIsConnecting(false);
       }
@@ -85,7 +87,7 @@ const CallPage = () => {
           </StreamVideo>
         ) : (
           <div className="flex items-center justify-center h-full">
-            <p>Could not initialize call. Please refresh or try again later.</p>
+            <p>{t('call.initError')}</p>
           </div>
         )}
       </div>
