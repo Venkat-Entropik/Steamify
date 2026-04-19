@@ -60,6 +60,7 @@ function MessageInput() {
               aria-label="remove-image"
               className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-slate-200 hover:bg-slate-700"
               type="button"
+              aria-label="remove-image"
             >
               <XIcon className="w-4 h-4" />
             </button>
@@ -89,6 +90,7 @@ function MessageInput() {
           ref={fileInputRef}
           onChange={handleImageChange}
           className="hidden"
+          placeholder="upload"
         />
 
         <button
@@ -104,6 +106,7 @@ function MessageInput() {
           data-testid="send-btn"
           type="submit"
           disabled={!text.trim() && !imagePreview}
+          data-testid="send-btn"
           className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <SendIcon className="w-5 h-5" />
