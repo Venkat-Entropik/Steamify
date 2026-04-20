@@ -11,7 +11,8 @@ import {
 import usersServices from "../../services/users.services";
 import NoNotificationsFound from "../../Components/NoNotificationsFound/NoNotificationsFound";
 import type { acceptedReqsType, inComingReqsType } from "../../types/streamify.types";
-import { getLanguageFlag } from "../../Components/FriendCard/FriendCard";
+import { getLanguageFlag } from "../../Components/LanguageFlag/LanguageFlag";
+import ProfileAvatar from "../../Components/ProfileAvatar/ProfileAvatar";
 
 const NotificationsPage = () => {
   const { t } = useTranslation();
@@ -84,9 +85,12 @@ const NotificationsPage = () => {
                           <div className="card-body p-6">
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
                               <div className="flex items-center gap-5 w-full">
-                                <div className="avatar size-20 ring-4 ring-base-200 ring-offset-2 ring-offset-base-100 rounded-full">
-                                  <img src={request.sender.profilePic} alt={request.sender.fullName} className="rounded-full" />
-                                </div>
+                                <ProfileAvatar
+                                  profilePic={request.sender.profilePic}
+                                  profilePicType={request.sender.profilePicType}
+                                  className="size-20 ring-4 ring-base-200 ring-offset-2 ring-offset-base-100"
+                                  fullName={request.sender.fullName}
+                                />
                                 <div className="flex-1 overflow-hidden">
                                   <h3 className="text-xl font-bold truncate">
                                     {request.sender.fullName}
@@ -148,9 +152,12 @@ const NotificationsPage = () => {
                       >
                         <div className="card-body p-5">
                           <div className="flex items-start gap-4">
-                            <div className="avatar size-12 ring-2 ring-success/20 ring-offset-1 rounded-full">
-                              <img src={notification.recipient.profilePic} alt={notification.recipient.fullName} className="rounded-full" />
-                            </div>
+                            <ProfileAvatar
+                              profilePic={notification.recipient.profilePic}
+                              profilePicType={notification.recipient.profilePicType}
+                              className="size-12 ring-2 ring-success/20 ring-offset-1"
+                              fullName={notification.recipient.fullName}
+                            />
                             <div className="flex-1 space-y-1">
                               <h3 className="font-bold">
                                 {notification.recipient.fullName}

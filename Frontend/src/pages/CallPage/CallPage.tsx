@@ -72,7 +72,7 @@ const CallPage = () => {
     };
 
     initCall();
-  }, [tokenData, authUser, callId]);
+  }, [tokenData, authUser, callId, t]);
 
   if (isLoading || isConnecting) return <PageLoader />;
 

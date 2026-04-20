@@ -23,7 +23,8 @@ app.use(
     credentials: true, // allow frontend to send cookies
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ limit: "5mb", extended: true }));
 app.use(cookieParser());
 
 const PORT = process.env.PORT;

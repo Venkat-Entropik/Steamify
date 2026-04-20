@@ -1,8 +1,9 @@
 import { Link } from "react-router";
-import { LANGUAGE_TO_FLAG } from "../../utils/Static";
 import type { friendType } from "../../types/streamify.types";
 import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
+import { getLanguageFlag } from "../LanguageFlag/LanguageFlag";
 
 interface FriendCardProps {
   friend: friendType;
@@ -17,9 +18,12 @@ const FriendCard = ({ friend }: FriendCardProps) => {
       <div className="relative card bg-base-100 border border-base-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
         <div className="card-body p-5">
           <div className="flex items-center gap-4 mb-4">
-            <div className="avatar size-14 ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100 rounded-full">
-              <img src={friend.profilePic} alt={friend.fullName} className="rounded-full" />
-            </div>
+            <ProfileAvatar
+              profilePic={friend.profilePic}
+              profilePicType={friend.profilePicType}
+              className="size-14 ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100"
+              fullName={friend.fullName}
+            />
             <div className="overflow-hidden">
               <h3 className="font-bold text-lg truncate">{friend.fullName}</h3>
               <div className="flex items-center gap-1 text-xs opacity-60">
@@ -57,21 +61,3 @@ const FriendCard = ({ friend }: FriendCardProps) => {
   );
 };
 export default FriendCard;
-
-export function getLanguageFlag(language: string) {
-  if (!language) return null;
-
-  const langLower = language.toLowerCase();
-  const countryCode = LANGUAGE_TO_FLAG[langLower as keyof typeof LANGUAGE_TO_FLAG];
-
-  if (countryCode) {
-    return (
-      <img
-        src={`https://flagcdn.com/24x18/${countryCode}.png`}
-        alt={`${langLower} flag`}
-        className="h-3.5 rounded-sm object-cover"
-      />
-    );
-  }
-  return null;
-}

@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    profilePicType: {
+      type: String,
+      enum: ["image", "avatar"],
+      default: "image",
+    },
     nativeLanguage: {
       type: String,
       default: "",
@@ -47,6 +52,10 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    lastProfilePicUpdate: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

@@ -6,6 +6,7 @@ export const Constants = {
   LOGOUT: "/auth/logout",
   ONBOARDING: "/auth/onboarding",
   GET_CURRENT_USER: "/auth/me",
+  UPDATE_PROFILE: "/auth/update-profile",
 
   // Chat constant
 

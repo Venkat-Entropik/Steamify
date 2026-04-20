@@ -2,15 +2,12 @@ import { Link, useLocation } from "react-router";
 import useAuthUser from "../../hooks/useAuthUser";
 import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
 
-interface SidebarProps {
-  getRandomNumber?: number;
-}
-
-const Sidebar = ({ getRandomNumber }: SidebarProps) => {
+const Sidebar = () => {
   const { t } = useTranslation();
   const { authData } = useAuthUser();
+  const authUser = authData?.data;
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -54,19 +51,16 @@ const Sidebar = ({ getRandomNumber }: SidebarProps) => {
         </Link>
       </nav>
 
-      <div className="px-4 py-2 border-t border-base-300">
-        <LanguageSwitcher />
-      </div>
-
       <div className="p-4 border-t border-base-300">
         <div className="flex items-center gap-3">
-          <div className="avatar">
-            <div className="w-10 rounded-full">
-              <img src={authData?.data?.profilePic || `https://testingbot.com/free-online-tools/random-avatar/${getRandomNumber || 100}`} alt="User Avatar" />
-            </div>
-          </div>
+          <ProfileAvatar
+            profilePic={authUser?.profilePic}
+            profilePicType={authUser?.profilePicType}
+            className="w-10 h-10"
+            fullName={authUser?.fullName}
+          />
           <div className="flex-1 overflow-hidden">
-            <p className="font-semibold text-sm truncate">{authData?.data?.fullName}</p>
+            <p className="font-semibold text-sm truncate">{authUser?.fullName}</p>
             <p className="text-xs text-success flex items-center gap-1">
               <span className="size-2 rounded-full bg-success inline-block" />
               {t('common.online')}

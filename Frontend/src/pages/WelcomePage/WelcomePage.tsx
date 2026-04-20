@@ -8,7 +8,6 @@ import {
   Video,
   Users,
   ArrowRight,
-  Languages,
   Zap,
   Sparkles,
 } from "lucide-react";
@@ -218,9 +217,6 @@ const WelcomePage: FC = () => {
             <a href="#" className="hover:text-primary transition-colors">
               {t('footer.contact')}
             </a>
-          </div>
-          <div className="flex gap-4">
-            <LanguageSwitcher />
           </div>
         </div>
       </footer>

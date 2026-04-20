@@ -21,7 +21,7 @@ const App: FC = () => {
   const isOnboarded: boolean | undefined = authUser?.isOnBoarded;
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !nonAuthenticatedRoutes.includes(window.location.pathname)) {
       connectSocket();
     } else {
       disconnectSocket();
