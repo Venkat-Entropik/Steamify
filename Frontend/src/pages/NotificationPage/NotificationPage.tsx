@@ -11,7 +11,7 @@ import {
 import usersServices from "../../services/users.services";
 import NoNotificationsFound from "../../Components/NoNotificationsFound/NoNotificationsFound";
 import type { acceptedReqsType, inComingReqsType } from "../../types/streamify.types";
-import { getLanguageFlag } from "../../Components/FriendCard/FriendCard";
+import { getLanguageFlag } from "../../Components/LanguageFlag/LanguageFlag";
 import ProfileAvatar from "../../Components/ProfileAvatar/ProfileAvatar";
 
 const NotificationsPage = () => {

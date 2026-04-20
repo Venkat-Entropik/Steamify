@@ -10,7 +10,8 @@ import {
   MapPin,
   Loader2,
 } from "lucide-react";
-import FriendCard, { getLanguageFlag } from "../../Components/FriendCard/FriendCard";
+import FriendCard from "../../Components/FriendCard/FriendCard";
+import { getLanguageFlag } from "../../Components/LanguageFlag/LanguageFlag";
 import NoFriendsFound from "../../Components/NoFriendsFound/NoFriendsFound";
 import type { UserType } from "../../types/streamify.types";
 import { capitialize } from "../../utils/utils";

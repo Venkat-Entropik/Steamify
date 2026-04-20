@@ -1,3 +1,4 @@
+import { getLanguageFlag } from "../../Components/LanguageFlag/LanguageFlag";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +17,7 @@ import {
 import { capitialize } from "../../utils/utils";
 
 import FriendCard, {
-  getLanguageFlag,
+   
 } from "../../Components/FriendCard/FriendCard";
 import NoFriendsFound from "../../Components/NoFriendsFound/NoFriendsFound";
 import type { UserType } from "../../types/streamify.types";

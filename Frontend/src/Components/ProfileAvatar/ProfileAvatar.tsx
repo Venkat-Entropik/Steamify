@@ -15,15 +15,19 @@ const ProfileAvatar: FC<ProfileAvatarProps> = ({
   fullName,
 }) => {
   if (profilePicType === "avatar" && profilePic) {
+    let config = null;
     try {
-      const config = genConfig(JSON.parse(profilePic));
+      config = genConfig(JSON.parse(profilePic));
+    } catch (error) {
+      console.error("Failed to parse avatar config", error);
+    }
+    
+    if (config) {
       return (
         <div className={`overflow-hidden rounded-full ${className}`}>
           <Avatar className="size-full" {...config} />
         </div>
       );
-    } catch (error) {
-      console.error("Failed to parse avatar config", error);
     }
   }
 

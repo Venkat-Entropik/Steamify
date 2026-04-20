@@ -11,7 +11,7 @@ import type { UserType } from "../../types/streamify.types";
 import toast from "react-hot-toast";
 import { useSocketStore } from "../../store/useSocketStore";
 import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
-import Avatar, { genConfig } from "react-nice-avatar";
+import Avatar, { genConfig, type AvatarConfig } from "react-nice-avatar";
 
 const Navbar: FC = () => {
   const { t } = useTranslation();
@@ -44,8 +44,8 @@ const Navbar: FC = () => {
       eyeBrowStyle: "up",
       shirtColor: ["#F4D150", "#9287FF", "#6BD9E9"][i % 3],
       bgColor: ["#E0E0E0", "#FFEDEF", "#F0FFE1"][i % 3],
-      seed: Math.random() * 1000
-    } as any));
+      seed: i * 100
+    } as AvatarConfig));
   }, []);
 
   const { mutate: updateProfileMutation } = useMutation({
@@ -55,8 +55,8 @@ const Navbar: FC = () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
       setIsModalOpen(false);
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Failed to update profile");
+    onError: () => {
+      toast.error("Failed to update profile");
     },
   });
 
@@ -105,7 +105,7 @@ const Navbar: FC = () => {
     };
   };
 
-  const handleAvatarSelect = (config: any) => {
+  const handleAvatarSelect = (config: AvatarConfig) => {
     // Weekly limit check
     if (authUser?.lastProfilePicUpdate) {
       const lastUpdate = new Date(authUser.lastProfilePicUpdate);
