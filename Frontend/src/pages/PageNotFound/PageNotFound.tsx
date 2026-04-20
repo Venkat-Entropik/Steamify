@@ -1,8 +1,10 @@
 import type { FC } from "react";
 import { Link } from "react-router";
 import { Ghost, Home, ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const PageNotFound: FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4 overflow-hidden">
       <div className="max-w-md w-full text-center space-y-8 relative">
@@ -22,10 +24,10 @@ const PageNotFound: FC = () => {
             </span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-base-content sm:text-5xl">
-            Page Not Found
+            {t('errors.404Title')}
           </h1>
           <p className="text-lg text-base-content/70 max-w-xs mx-auto">
-            Oops! The page you're looking for has vanished into the digital void.
+            {t('errors.404Desc')}
           </p>
         </div>
 
@@ -35,14 +37,14 @@ const PageNotFound: FC = () => {
             className="btn btn-primary btn-lg gap-2 w-full sm:w-auto hover:shadow-lg transition-all active:scale-95"
           >
             <Home className="w-5 h-5" />
-            Go Home
+            {t('errors.goHome')}
           </Link>
           <button
             onClick={() => window.history.back()}
             className="btn btn-outline btn-lg gap-2 w-full sm:w-auto hover:bg-base-300 transition-all active:scale-95"
           >
             <ArrowLeft className="w-5 h-5" />
-            Go Back
+            {t('errors.goBack')}
           </button>
         </div>
 

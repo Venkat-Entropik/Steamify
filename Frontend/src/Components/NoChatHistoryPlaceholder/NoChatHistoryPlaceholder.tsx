@@ -1,5 +1,6 @@
 import { MessageCircleIcon, Sparkles, Send } from "lucide-react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 interface NoChatHistoryPlaceholderProps {
   name: string;
@@ -8,6 +9,8 @@ interface NoChatHistoryPlaceholderProps {
 const NoChatHistoryPlaceholder: FC<NoChatHistoryPlaceholderProps> = ({
   name,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-8 animate-in fade-in duration-1000">
       <div className="relative mb-8">
@@ -20,20 +23,20 @@ const NoChatHistoryPlaceholder: FC<NoChatHistoryPlaceholderProps> = ({
 
       <div className="space-y-4 max-w-sm">
         <h3 className="text-3xl font-black tracking-tight text-base-content">
-          Start your <span className="text-primary italic">fluency</span> journey with {name}
+          {t('chat.placeholderTitle', { name })}
         </h3>
         <p className="text-base-content/50 text-lg leading-relaxed">
-          Every conversation is a step closer to mastery. Send a friendly message to begin!
+          {t('chat.placeholderSubtitle')}
         </p>
       </div>
 
       <div className="flex flex-col gap-4 w-full max-w-xs mt-10">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-base-content/30 text-left ml-1">Quick Starters</p>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-base-content/30 text-left ml-1">{t('chat.quickStarters')}</p>
         <div className="flex flex-wrap gap-2 justify-center">
-          <SuggestionButton text="👋 Say Hello" />
-          <SuggestionButton text="🤝 How are you?" />
-          <SuggestionButton text="🌍 Where are you from?" />
-          <SuggestionButton text="📚 Why are you learning?" />
+          <SuggestionButton text={t('chat.starter1')} />
+          <SuggestionButton text={t('chat.starter2')} />
+          <SuggestionButton text={t('chat.starter3')} />
+          <SuggestionButton text={t('chat.starter4')} />
         </div>
       </div>
     </div>

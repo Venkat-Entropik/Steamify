@@ -14,8 +14,10 @@ import FriendCard, { getLanguageFlag } from "../../Components/FriendCard/FriendC
 import NoFriendsFound from "../../Components/NoFriendsFound/NoFriendsFound";
 import type { UserType } from "../../types/streamify.types";
 import { capitialize } from "../../utils/utils";
+import { useTranslation } from "react-i18next";
 
 const FriendsPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<"my-friends" | "discover">("my-friends");
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,15 +78,15 @@ const FriendsPage = () => {
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Community</h1>
-          <p className="text-base-content/70">Manage your friends and discover new language partners.</p>
+          <h1 className="text-3xl font-bold tracking-tight">{t('friends.community')}</h1>
+          <p className="text-base-content/70">{t('friends.communitySubtitle')}</p>
         </div>
 
         <div className="relative w-full md:w-80 group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-base-content/40 group-focus-within:text-primary transition-colors" />
           <input
             type="text"
-            placeholder="Search by name or language..."
+            placeholder={t('friends.searchPlaceholder')}
             className="input input-bordered w-full pl-10 bg-base-200 focus:bg-base-100 transition-all"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -99,7 +101,7 @@ const FriendsPage = () => {
           onClick={() => setActiveTab("my-friends")}
         >
           <Users className="size-4" />
-          My Friends
+          {t('friends.myFriends')}
           {friends?.data?.length > 0 && (
             <span className={`badge badge-sm ${activeTab === "my-friends" ? "badge-ghost bg-primary-content/20 border-none" : "badge-outline opacity-50"}`}>
               {friends?.data.length}
@@ -111,7 +113,7 @@ const FriendsPage = () => {
           onClick={() => setActiveTab("discover")}
         >
           <Globe className="size-4" />
-          Discover
+          {t('friends.discover')}
         </button>
       </div>
 
@@ -120,13 +122,13 @@ const FriendsPage = () => {
           loadingFriends ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
               <Loader2 className="size-10 text-primary animate-spin" />
-              <p className="text-base-content/50 animate-pulse">Loading your friends...</p>
+              <p className="text-base-content/50 animate-pulse">{t('friends.loadingFriends')}</p>
             </div>
           ) : friendsList.length === 0 ? (
             searchQuery ? (
               <div className="text-center py-20 bg-base-200 rounded-3xl border-2 border-dashed border-base-300">
-                <p className="text-lg font-medium">No friends found matching "{searchQuery}"</p>
-                <button onClick={() => setSearchQuery("")} className="btn btn-link no-underline">Clear search</button>
+                <p className="text-lg font-medium">{t('friends.noFriendsMatch', { query: searchQuery })}</p>
+                <button onClick={() => setSearchQuery("")} className="btn btn-link no-underline">{t('friends.clearSearch')}</button>
               </div>
             ) : (
               <NoFriendsFound />
@@ -143,19 +145,19 @@ const FriendsPage = () => {
           loadingUsers ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
               <Loader2 className="size-10 text-primary animate-spin" />
-              <p className="text-base-content/50 animate-pulse">Finding language partners...</p>
+              <p className="text-base-content/50 animate-pulse">{t('friends.loadingPartners')}</p>
             </div>
           ) : recommendationsList.length === 0 ? (
             <div className="card bg-base-200 p-12 text-center border-2 border-dashed border-base-300 rounded-3xl">
               <Globe className="size-12 mx-auto text-base-content/20 mb-4" />
               <h3 className="font-semibold text-xl mb-2">
-                {searchQuery ? `No one found matching "${searchQuery}"` : "No recommendations available"}
+                {searchQuery ? t('friends.noPartnersMatch', { query: searchQuery }) : t('friends.noRecommendations')}
               </h3>
               <p className="text-base-content/60 max-w-xs mx-auto">
-                Check back later or try clearing your search to find more language partners!
+                {t('friends.checkBackLater')}
               </p>
               {searchQuery && (
-                <button onClick={() => setSearchQuery("")} className="btn btn-outline btn-sm mt-4">Clear search</button>
+                <button onClick={() => setSearchQuery("")} className="btn btn-outline btn-sm mt-4">{t('friends.clearSearch')}</button>
               )}
             </div>
           ) : (
@@ -183,11 +185,11 @@ const FriendsPage = () => {
                       <div className="flex flex-wrap gap-2">
                         <span className="badge badge-secondary gap-1 py-3 px-3">
                           {getLanguageFlag(user.nativeLanguage)}
-                          <span className="text-xs">Native: {capitialize(user.nativeLanguage)}</span>
+                          <span className="text-xs">{t('friends.native')}: {capitialize(user.nativeLanguage)}</span>
                         </span>
                         <span className="badge badge-outline gap-1 py-3 px-3">
                           {getLanguageFlag(user.learningLanguage)}
-                          <span className="text-xs">Learning: {capitialize(user.learningLanguage)}</span>
+                          <span className="text-xs">{t('friends.learning')}: {capitialize(user.learningLanguage)}</span>
                         </span>
                       </div>
 
@@ -209,14 +211,14 @@ const FriendsPage = () => {
                         {hasRequestBeenSent ? (
                           <>
                             <CheckCircle className="size-4 mr-2" />
-                            Request Sent
+                            {t('friends.requestSent')}
                           </>
                         ) : isSendingRequest ? (
                           <span className="loading loading-spinner loading-sm" />
                         ) : (
                           <>
                             <UserPlus className="size-4 mr-2" />
-                            Connect
+                            {t('friends.connect')}
                           </>
                         )}
                       </button>

@@ -1,5 +1,6 @@
 import { ShipWheelIcon, Mail, Lock, ArrowRight, Github } from "lucide-react";
 import { Link, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import authIllustration from "../../assets/generated/auth_illustration.png";
 import { useForm } from "react-hook-form";
@@ -7,8 +8,10 @@ import type { loginPayloadType } from "../../types/streamify.types";
 import { emailRegexPattern } from "../../utils/Static";
 import authServices from "../../services/auth.services";
 import toast from "react-hot-toast";
+import LanguageSwitcher from "../../Components/LanguageSwitcher/LanguageSwitcher";
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const {
     register,
@@ -36,6 +39,11 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center p-4 overflow-hidden relative">
+      {/* Language Switcher - Floating */}
+      <div className="fixed top-8 right-8 z-50">
+        <LanguageSwitcher />
+      </div>
+
       {/* Decorative Background Elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -mr-64 -mt-64"></div>
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 blur-[120px] rounded-full -ml-64 -mb-64"></div>
@@ -47,13 +55,13 @@ const LoginPage = () => {
           <div className="mb-12 flex items-center gap-3">
             <ShipWheelIcon className="size-10 text-primary" />
             <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-              Streamify
+              {t('common.appName')}
             </span>
           </div>
 
           <div className="space-y-2 mb-10">
-            <h1 className="text-4xl font-bold tracking-tight">Welcome Back</h1>
-            <p className="text-base-content/60">Continue your journey to fluency. Sign in below.</p>
+            <h1 className="text-4xl font-bold tracking-tight">{t('auth.welcomeBack')}</h1>
+            <p className="text-base-content/60">{t('auth.continueJourney')}</p>
           </div>
 
           <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
@@ -61,7 +69,7 @@ const LoginPage = () => {
               {/* EMAIL FIELD */}
               <div className="form-control">
                 <label className="label py-1">
-                  <span className="label-text font-medium">Email Address</span>
+                  <span className="label-text font-medium">{t('auth.email')}</span>
                 </label>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30 group-focus-within:text-primary transition-colors" />
@@ -70,10 +78,10 @@ const LoginPage = () => {
                     placeholder="name@example.com"
                     className={`input input-bordered w-full pl-12 h-14 bg-base-200 focus:bg-base-100 transition-all ${errors.email ? 'input-error' : ''}`}
                     {...register("email", {
-                      required: "Email is required",
+                      required: t('errors.emailRequired'),
                       pattern: {
                         value: emailRegexPattern,
-                        message: "Enter a valid email address",
+                        message: t('errors.invalidEmail'),
                       },
                     })}
                   />
@@ -84,8 +92,8 @@ const LoginPage = () => {
               {/* PASSWORD FIELD */}
               <div className="form-control">
                 <label className="label py-1 flex justify-between">
-                  <span className="label-text font-medium">Password</span>
-                  <Link to="#" className="label-text-alt text-primary hover:underline font-medium">Forgot password?</Link>
+                  <span className="label-text font-medium">{t('auth.password')}</span>
+                  <Link to="#" className="label-text-alt text-primary hover:underline font-medium">{t('auth.forgotPassword')}</Link>
                 </label>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-base-content/30 group-focus-within:text-primary transition-colors" />
@@ -94,10 +102,10 @@ const LoginPage = () => {
                     placeholder="••••••••"
                     className={`input input-bordered w-full pl-12 h-14 bg-base-200 focus:bg-base-100 transition-all ${errors.password ? 'input-error' : ''}`}
                     {...register("password", {
-                      required: "Password is required",
+                      required: t('errors.passwordRequired'),
                       minLength: {
                         value: 8,
-                        message: "Must be at least 8 characters",
+                        message: t('errors.passwordTooShort'),
                       },
                     })}
                   />
@@ -108,30 +116,30 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className="btn btn-primary w-full h-14 text-lg shadow-lg shadow-primary/20 gap-2 group"
+              className="btn btn-primary w-full h-14 text-lg shadow-lg shadow-primary/20 gap-2 group rounded-xl"
               disabled={isPending || !isValid || isSubmitting}
             >
               {isPending || isSubmitting ? (
                 <span className="loading loading-spinner"></span>
               ) : (
                 <>
-                  Sign In
+                  {t('auth.signIn')}
                   <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
             </button>
 
-            <div className="divider text-xs text-base-content/30 uppercase tracking-widest font-bold">Or continue with</div>
+            <div className="divider text-xs text-base-content/30 uppercase tracking-widest font-bold">{t('auth.orContinue')}</div>
 
-            <button type="button" className="btn btn-outline w-full h-14 gap-3 border-base-300 hover:bg-base-200">
+            <button type="button" className="btn btn-outline w-full h-14 gap-3 border-base-300 hover:bg-base-200 rounded-xl">
               <Github className="size-5" />
-              Sign in with GitHub
+              {t('auth.signInWithGithub')}
             </button>
 
             <p className="text-center text-base-content/60 pt-4">
-              New to Streamify?{" "}
+              {t('auth.noAccount')}{" "}
               <Link to="/signup" className="text-primary font-bold hover:underline transition-all">
-                Create an account
+                {t('auth.createAccount')}
               </Link>
             </p>
           </form>
@@ -152,8 +160,8 @@ const LoginPage = () => {
           </div>
 
           <div className="text-center mt-12 space-y-4 max-w-xs relative z-10">
-            <h2 className="text-2xl font-bold">Your fluency journey starts here.</h2>
-            <p className="text-base-content/60 italic">"The beautiful thing about learning is that no one can take it away from you."</p>
+            <h2 className="text-2xl font-bold">{t('auth.loginHeroTitle')}</h2>
+            <p className="text-base-content/60 italic">{t('auth.loginHeroQuote')}</p>
           </div>
         </div>
       </div>

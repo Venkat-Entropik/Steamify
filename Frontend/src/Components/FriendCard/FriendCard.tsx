@@ -2,12 +2,14 @@ import { Link } from "react-router";
 import { LANGUAGE_TO_FLAG } from "../../utils/Static";
 import type { friendType } from "../../types/streamify.types";
 import { MessageCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface FriendCardProps {
   friend: friendType;
 }
 
 const FriendCard = ({ friend }: FriendCardProps) => {
+  const { t } = useTranslation();
   return (
     <div className="group relative">
       <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
@@ -22,7 +24,7 @@ const FriendCard = ({ friend }: FriendCardProps) => {
               <h3 className="font-bold text-lg truncate">{friend.fullName}</h3>
               <div className="flex items-center gap-1 text-xs opacity-60">
                 <span className="size-2 bg-success rounded-full animate-pulse"></span>
-                Active Now
+                {t('friends.activeNow')}
               </div>
             </div>
           </div>
@@ -31,12 +33,12 @@ const FriendCard = ({ friend }: FriendCardProps) => {
             <div className="flex flex-wrap gap-2">
               <div className="badge badge-primary badge-outline gap-1.5 py-3 border-primary/30">
                 {getLanguageFlag(friend.nativeLanguage)}
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-60">Native:</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-60">{t('friends.native')}:</span>
                 <span className="font-bold">{friend.nativeLanguage}</span>
               </div>
               <div className="badge badge-secondary badge-outline gap-1.5 py-3 border-secondary/30">
                 {getLanguageFlag(friend.learningLanguage)}
-                <span className="text-[10px] uppercase font-bold tracking-wider opacity-60">Learning:</span>
+                <span className="text-[10px] uppercase font-bold tracking-wider opacity-60">{t('friends.learning')}:</span>
                 <span className="font-bold">{friend.learningLanguage}</span>
               </div>
             </div>
@@ -47,7 +49,7 @@ const FriendCard = ({ friend }: FriendCardProps) => {
             className="btn btn-primary w-full gap-2 shadow-lg shadow-primary/20 group-hover:scale-[1.02] transition-transform"
           >
             <MessageCircle className="size-4" />
-            Message
+            {t('chat.message')}
           </Link>
         </div>
       </div>
