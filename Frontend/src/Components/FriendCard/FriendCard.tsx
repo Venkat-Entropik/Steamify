@@ -12,7 +12,7 @@ interface FriendCardProps {
 const FriendCard = ({ friend }: FriendCardProps) => {
   const { t } = useTranslation();
   return (
-    <div className="group relative">
+    <div className="group relative" data-testid="friend-card">
       <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
       
       <div className="relative card bg-base-100 border border-base-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
@@ -50,6 +50,7 @@ const FriendCard = ({ friend }: FriendCardProps) => {
 
           <Link 
             to={`/chat/${friend._id}`} 
+            aria-label="chat button"
             className="btn btn-primary w-full gap-2 shadow-lg shadow-primary/20 group-hover:scale-[1.02] transition-transform"
           >
             <MessageCircle className="size-4" />

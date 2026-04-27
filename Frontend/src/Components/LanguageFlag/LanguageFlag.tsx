@@ -1,6 +1,6 @@
 import { LANGUAGE_TO_FLAG } from "../../utils/Static";
 
-export function getLanguageFlag(language: string) {
+export function getLanguageFlag(language?: string) {
   if (!language) return null;
 
   const langLower = language.toLowerCase();
@@ -12,6 +12,7 @@ export function getLanguageFlag(language: string) {
         src={`https://flagcdn.com/24x18/${countryCode}.png`}
         alt={`${langLower} flag`}
         className="h-3.5 rounded-sm object-cover"
+        aria-label="country flag"
       />
     );
   }
