@@ -1,13 +1,6 @@
 import { LanguagesIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
-const LANGUAGES = [
-  { code: "en", label: "English", flag: "🇺🇸" },
-  { code: "fr", label: "Français", flag: "🇫🇷" },
-  { code: "zh", label: "中文", flag: "🇨🇳" },
-  { code: "ko", label: "한국어", flag: "🇰🇷" },
-  { code: "te", label: "తెలుగు", flag: "🇮🇳" },
-];
+import { LANGUAGES_WITH_FLAGS } from "../../utils/Static";
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
@@ -18,7 +11,11 @@ const LanguageSelector = () => {
 
   return (
     <div className="dropdown dropdown-end">
-      <button tabIndex={0} className="btn btn-ghost btn-circle">
+      <button
+        tabIndex={0}
+        className="btn btn-ghost btn-circle"
+        aria-label="change language"
+      >
         <LanguagesIcon className="size-5" />
       </button>
 
@@ -28,7 +25,7 @@ const LanguageSelector = () => {
         w-48 border border-base-content/10 max-h-80 overflow-y-auto z-50"
       >
         <div className="space-y-1">
-          {LANGUAGES.map((lang) => (
+          {LANGUAGES_WITH_FLAGS.map((lang) => (
             <button
               key={lang.code}
               className={`
@@ -39,6 +36,7 @@ const LanguageSelector = () => {
                   : "hover:bg-base-content/5"
               }
             `}
+              aria-label="choose language"
               onClick={() => changeLanguage(lang.code)}
             >
               <span className="text-xl">{lang.flag}</span>

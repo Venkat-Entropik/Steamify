@@ -1,6 +1,6 @@
 function MessagesLoadingSkeleton() {
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6" data-testid="message-loading-skeleton">
       {[...Array(6)].map((_, index) => (
         <div
           key={index}

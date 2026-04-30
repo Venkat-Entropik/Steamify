@@ -23,6 +23,7 @@ function ChatHeader() {
   if (!selectedUser) return null;
   return (
     <div
+    data-testid="chat-header"
       className="flex justify-between items-center bg-base-100/30 backdrop-blur-sm border-b
    border-base-content/5 max-h-[84px] px-6 py-4 flex-none z-10"
     >
@@ -55,6 +56,7 @@ function ChatHeader() {
       <button 
         onClick={() => setSelectedUser(null)}
         className="btn btn-ghost btn-circle hover:bg-error/10 hover:text-error transition-all"
+        aria-label="close header"
       >
         <XIcon className="size-6 opacity-40 hover:opacity-100" />
       </button>

@@ -205,3 +205,11 @@ export const LANGUAGE_TO_FLAG = {
 };
 
 export const sidebarNotRequiredPages = ["Chat", "Call", "Welcome", "Login", "Signup", "Onboarding"];
+
+export const LANGUAGES_WITH_FLAGS = [
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "fr", label: "Français", flag: "🇫🇷" },
+  { code: "zh", label: "中文", flag: "🇨🇳" },
+  { code: "ko", label: "한국어", flag: "🇰🇷" },
+  { code: "te", label: "తెలుగు", flag: "🇮🇳" },
+];

@@ -21,10 +21,13 @@ const ProfileAvatar: FC<ProfileAvatarProps> = ({
     } catch (error) {
       console.error("Failed to parse avatar config", error);
     }
-    
+
     if (config) {
       return (
-        <div className={`overflow-hidden rounded-full ${className}`}>
+        <div
+          className={`overflow-hidden rounded-full ${className}`}
+          data-testid="profile-avatar"
+        >
           <Avatar className="size-full" {...config} />
         </div>
       );

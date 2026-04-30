@@ -49,6 +49,7 @@ function ProfileHeader() {
           <button
             className="text-slate-400 hover:text-slate-200 transition-colors"
             onClick={handleLogout}
+            aria-label="chat exit button"
           >
             <LogOutIcon className="size-5" />
           </button>
