@@ -9,7 +9,7 @@ jest.mock("../hooks/useAuthUser");
 
 describe("ProfileHeader", () => {
   test("Should render the component", () => {
-    useAuthUser.mockReturnValue({
+    (useAuthUser as jest.Mock).mockReturnValue({
       isLoading: false,
       authData: {
         data: { ...userMockData },

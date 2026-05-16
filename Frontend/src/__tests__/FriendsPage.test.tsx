@@ -161,7 +161,7 @@ describe("FriendsPage Integration Test", () => {
 
   test("Should show loading states while fetching data", async () => {
     // We don't resolve immediately to see loader
-    let resolveFriends: unknown;
+    let resolveFriends: (value: any) => void;
     const friendsPromise = new Promise((resolve) => {
       resolveFriends = resolve;
     });
