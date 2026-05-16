@@ -38,7 +38,7 @@ const NotificationsPage = () => {
     friendRequests?.data?.acceptedReqs || [];
 
   return (
-    <div className="min-h-screen bg-base-100 pb-20">
+    <div data-testid="notifications" className="min-h-screen bg-base-100 pb-20">
       <div className="container mx-auto max-w-5xl px-4 sm:px-8 py-10">
         
         {/* HEADER */}
