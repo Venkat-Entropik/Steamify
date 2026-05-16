@@ -1,7 +1,7 @@
 import HomePage from "../pages/HomePage/HomePage";
 import { screen, render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { data, MemoryRouter } from "react-router";
+import { MemoryRouter } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createTestQueryClient } from "./App.test";
 import NotificationsPage from "../pages/NotificationPage/NotificationPage";
