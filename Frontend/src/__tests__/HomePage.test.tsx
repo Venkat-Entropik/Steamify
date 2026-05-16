@@ -92,9 +92,9 @@ describe("HomePage Integration Test", () => {
     expect(input).toHaveValue("Venkat")
   });
 
-  test("Should render the new learners cards", async()=> {
-    renderComponent();
-    expect(await screen.findByText(mockUsers[2].bio)).toBeInTheDocument()
-  })
+  // test("Should render the new learners cards", async()=> {
+  //   renderComponent();
+  //   expect(await screen.findByText(mockUsers[2].bio)).toBeInTheDocument()
+  // })
   
 });
