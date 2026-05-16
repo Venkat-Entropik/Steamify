@@ -28,7 +28,7 @@ const mockUsers = [
   },
 ];
 
-describe("FriendsPage", () => {
+describe("FriendsPage Integration Test", () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
